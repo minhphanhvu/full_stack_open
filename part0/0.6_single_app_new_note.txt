@@ -1,0 +1,9 @@
+title Single App Sequence
+
+note left of browser: data is sent as JSON-data
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+
+note right of server: the server uses JSON-data \nto update its js data with a new note
+
+server->browser: Status code 201: note created
+note left of browser: no redirect; even handler adds a new note \nto the page without refreshing the page 

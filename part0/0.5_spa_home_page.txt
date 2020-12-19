@@ -1,0 +1,15 @@
+title Single App Sequence - home page
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+server->browser: HTML codes
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server->browser: main.css
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+server-> browser: spa.js
+note left of browser: execute js codes and \nsend another GET request to get json data
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server->browser: data.json
+note left of browser: event handler rendering \nthe js data to display on the browser
