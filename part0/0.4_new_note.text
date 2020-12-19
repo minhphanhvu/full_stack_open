@@ -1,0 +1,29 @@
+title Sequence of form submission and render of the browser
+
+note left of browser: user's input is sent when hitting submit
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+
+note right of server: store the new note
+server->browser: Tell browser to redirect with status code 302
+
+note left of browser: Location header from the server's response \ntells the browser where to redirect
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+
+server->browser: HTML file of the notes page
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+
+server->browser: send back css file
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+
+server->browser: send back JavaScript main codes
+
+note left of browser: send another request to server \nafter executing js codes
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+
+server->browser: send back json data
+
+note left of browser: render the json data to display\n on the browser as the end result
