@@ -1,8 +1,14 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
-const Feedback = (props) => {
-  if (props.feedback.all_feedback === 0)
+const Statistic = ({text, value}) => (
+  <>
+    {text}: {value}
+  </>
+)
+
+const Statistics = (props) => {
+  if (props.statistics.all_feedback === 0)
   {
     return (
       <>
@@ -15,26 +21,29 @@ const Feedback = (props) => {
     return (
     <>
     <h4>statistics</h4>
-      <ul>
-        <li>good: {props.feedback.good}</li>
-        <li>neutral: {props.feedback.neutral}</li>
-        <li>bad: {props.feedback.bad}</li>
-      </ul>
-      <p>All: {props.feedback.all_feedback}</p>
-      <p>Average: {props.feedback.average}</p>
-      <p>Positive feedback: {props.feedback.positive}</p>
+      <table>
+        <tbody>
+          <tr><td><Statistic text="good" value={props.statistics.good}/></td></tr>
+          <tr><td><Statistic text="good" value={props.statistics.good}/></td></tr>
+          <tr><td><Statistic text="neutral" value={props.statistics.neutral}/></td></tr>
+          <tr><td><Statistic text="bad" value={props.statistics.bad}/></td></tr>
+          <tr><td><Statistic text="All" value={props.statistics.all_feedback}/></td></tr>
+          <tr><td><Statistic text="Average" value={props.statistics.average}/></td></tr>
+          <tr><td><Statistic text="Positive" value={props.statistics.positive}/></td></tr>
+        </tbody>
+      </table>
     </>
     )
   }
 }
 
-const Statistics = (props) => {
-  return (
-    <>
-      <Feedback feedback={props.statistics}/>
-    </>
-  )
-}
+const Button = ({ onClick, text }) => (
+  <>
+    <button onClick={onClick}>
+      {text}
+    </button>
+  </>
+)
 
 const App = () => {
   // save clicks of each button to its own state
@@ -51,12 +60,24 @@ const App = () => {
     positive:good/(good + neutral + bad)
   }
 
+  const handleBadClick = () => {
+    setBad(bad + 1)
+  }
+
+  const handleNeutralClick = () => {
+    setNeutral(neutral + 1)
+  }
+
+  const handleGoodClick = () => {
+    setGood(good + 1)
+  }
+
   return (
     <>
       <h4>give feed back</h4>
-      <button onClick={ () => setGood(good + 1) }>good</button>
-      <button onClick={ () => setNeutral(neutral + 1) }>neutral</button>
-      <button onClick={ () => setBad(bad + 1) }>bad</button>
+      <Button onClick={handleGoodClick} text="good"/>
+      <Button onClick={handleNeutralClick} text="neutral"/>
+      <Button onClick={handleBadClick} text="bad"/>
       <Statistics statistics={statistics}/>
     </>
   )
