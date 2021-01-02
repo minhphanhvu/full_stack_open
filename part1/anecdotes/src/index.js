@@ -15,23 +15,60 @@ const Vote = (props) => (
   </>
 )
 
+const Anecdote = (props) => (
+  <>
+    <div>
+      <h2>{props.header}</h2>
+      <p>{props.anecdote}</p>
+    </div>
+  </>
+)
+
 const App = (props) => {
   const [selected, setSelected] = useState(0)
   const [allVotes, setVotes] = useState(Array.apply(null, new Array(anecdotes.length)).map(Number.prototype.valueOf, 0))
 
-  const randomIndex = Math.floor(Math.random() * Math.floor(anecdotes.length))
   const generateNumber = () => {
-    setSelected(randomIndex)
+    let randomNumber;
+
+    do {
+      randomNumber = Math.floor(Math.random() * Math.floor(anecdotes.length))
+    } while (randomNumber === selected)
+
+    setSelected(randomNumber)
   }
+
+  const getVote = () => {
+    const copyVotes = [...allVotes]
+    copyVotes[selected] += 1
+    setVotes(copyVotes)
+  }
+
+  const findIndexOfMax = (arr) => {
+
+    let max = arr[0]
+    let maxIndex = 0
+
+    for (let i = 1; i < arr.length; i++) {
+      if (arr[i] > max){
+        max = arr[i]
+        maxIndex = i
+      }
+    }
+
+    return maxIndex;
+  }
+
+  const maxIndex = findIndexOfMax([...allVotes])
 
   return (
     <>
-      <div>
-        {props.anecdotes[selected]}
-      </div>
-      <Vote vote={allVotes[randomIndex]}/>
-      <Button onClick={ () => setVotes(allVotes[randomIndex]++) } text="vote"/>
+      <Anecdote header="Anecdote of the day" anecdote={props.anecdotes[selected]}/>
+      <Vote vote={allVotes[selected]}/>
+      <Button onClick={getVote} text="vote"/>
       <Button onClick={generateNumber} text="next anecdote"/>
+      <Anecdote header="Anecdote with most votes" anecdote={props.anecdotes[maxIndex]}/>
+      <Vote vote={allVotes[maxIndex]}/>
     </>
   )
 }
