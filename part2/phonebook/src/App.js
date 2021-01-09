@@ -4,11 +4,6 @@ const App = (props) => {
   const [ persons, setPersons ] = useState(props.persons) 
   const [ newName, setNewName ] = useState('')
   const [ id, setId ] = useState(0)
-  const [ tempName, setTempName ] = useState('')
-
-  const nameNotExist = () => {
-    return persons.find( ({name}) => name === tempName )
-  }
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -17,20 +12,20 @@ const App = (props) => {
       name: newName
     }
 
-    setId(id + 1)
-    setPersons(persons.concat(personObject))
-    setNewName('')
-  }
-
-  const handleNameChange = (event) => {
-    setTempName(event.target.value)
-    if (nameNotExist === undefined) {
-      setNewName(event.target.value)
-    }
-    else {
+    const found = persons.filter((person) => person.name === personObject.name)
+    if (found.length > 0) {
       const mes = `${newName} is already added to phonebook`
       window.alert(mes)
     }
+    else {
+    setId(id + 1)
+    setPersons(persons.concat(personObject))
+    setNewName('')
+    }
+  }
+
+  const handleNameChange = (event) => {
+    setNewName(event.target.value)
   }
 
   return (
@@ -42,6 +37,9 @@ const App = (props) => {
                   value={newName} 
                   onChange={handleNameChange} 
                 />
+        </div>
+        <div>
+          number: <input />
         </div>
         <div>
           <button type="submit">add</button>
