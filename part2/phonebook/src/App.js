@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
+import Contract from './components/Contract'
 
 const App = (props) => {
   const [ persons, setPersons ] = useState(props.persons)
-  const [ numbers, setNumbers ] = useState(props.numbers)
   const [ newNumber, setNewNumber ] = useState('')
   const [ newName, setNewName ] = useState('')
   const [ id, setId ] = useState(0)
@@ -11,10 +11,7 @@ const App = (props) => {
     event.preventDefault()
     const personObject = {
       id: id,
-      name: newName
-    }
-    const numberObject = {
-      id : id,
+      name: newName,
       number: newNumber
     }
 
@@ -27,7 +24,6 @@ const App = (props) => {
     else {
     setId(id + 1)
     setPersons(persons.concat(personObject))
-    setNumbers(numbers.concat(numberObject))
     setNewName('')
     setNewNumber('')
     }
@@ -57,8 +53,7 @@ const App = (props) => {
       </form>
       <h2>Numbers</h2>
       <ul>
-        { persons.map(person => <li key={person.id}>{person.name}</li>) }
-        { numbers.map(number => <>{number.number}</>) }
+        { persons.map( person => <Contract key={person.id} name={person.name} number={person.number}/>)}
       </ul>
     </div>
   )
