@@ -3,8 +3,9 @@ import Contract from './components/Contract'
 
 const App = (props) => {
   const [ persons, setPersons ] = useState(props.persons)
-  const [ newNumber, setNewNumber ] = useState('')
   const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
+  const [ filterContacts, setContacts ] = useState([])
   const [ id, setId ] = useState(0)
 
   const addPerson = (event) => {
@@ -24,6 +25,8 @@ const App = (props) => {
     else {
     setId(id + 1)
     setPersons(persons.concat(personObject))
+    setContacts(persons.concat(personObject))
+    console.log(persons)
     setNewName('')
     setNewNumber('')
     }
@@ -34,12 +37,25 @@ const App = (props) => {
   }
 
   const addNumber = (event) => {
-    setNewNumber(parseInt((event.target.value), 10))
+    setNewNumber(event.target.value, 10)
+  }
+
+  const filterContact = (event) => {
+    const filterValue = event.target.value.toLowerCase()
+    if (filterValue.length === 0){
+      setContacts(persons)
+    }
+    else {
+    setContacts(persons.filter(person => person.name.toLowerCase().includes(filterValue)))
+    }
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
+        <label htmlFor="filter">filter shown with</label>
+        <input name="filter" id="filter" type="text" onChange={filterContact} />
+      <h3>Add a new contact</h3>
       <form onSubmit={addPerson}>
         <div>
           name: <input value={newName} onChange={addName} type="text" />
@@ -53,7 +69,7 @@ const App = (props) => {
       </form>
       <h2>Numbers</h2>
       <ul>
-        { persons.map( person => <Contract key={person.id} name={person.name} number={person.number}/>)}
+        { filterContacts.map( person => <Contract key={person.id} name={person.name} number={person.number}/>)}
       </ul>
     </div>
   )
