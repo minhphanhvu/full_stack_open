@@ -23,12 +23,11 @@ const App = (props) => {
       window.alert(mes)
     }
     else {
-    setId(id + 1)
-    setPersons(persons.concat(personObject))
-    setContacts(persons.concat(personObject))
-    console.log(persons)
-    setNewName('')
-    setNewNumber('')
+      setId(id + 1);
+      setPersons(persons.concat(personObject));
+      setContacts(persons.concat(personObject));
+      setNewName('');
+      setNewNumber('');
     }
   }
 
@@ -69,7 +68,7 @@ const App = (props) => {
       </form>
       <h2>Numbers</h2>
       <ul>
-        { filterContacts.map( person => <Contract key={person.id} name={person.name} number={person.number}/>)}
+        { filterContacts.map( person => <Contract key={person.id} name={person.name} number={person.number}/>) }
       </ul>
     </div>
   )
