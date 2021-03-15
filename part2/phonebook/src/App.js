@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
-import Contract from './components/Contract'
+import React, { useState } from 'react';
+import Contract from './components/Contract.jsx';
+import Form from './components/Form.jsx';
+import Filter from './components/Filter.jsx';
 
 const App = (props) => {
   const [ persons, setPersons ] = useState(props.persons)
@@ -21,13 +23,12 @@ const App = (props) => {
     if (found.length > 0) {
       const mes = `${newName} is already added to phonebook`
       window.alert(mes)
-    }
-    else {
-      setId(id + 1);
-      setPersons(persons.concat(personObject));
-      setContacts(persons.concat(personObject));
-      setNewName('');
-      setNewNumber('');
+    } else {
+        setId(id + 1);
+        setPersons(persons.concat(personObject));
+        setContacts(filterContacts.concat(personObject));
+        setNewName('');
+        setNewNumber('');
     }
   }
 
@@ -41,34 +42,24 @@ const App = (props) => {
 
   const filterContact = (event) => {
     const filterValue = event.target.value.toLowerCase()
+
     if (filterValue.length === 0){
       setContacts(persons)
-    }
-    else {
-    setContacts(persons.filter(person => person.name.toLowerCase().includes(filterValue)))
+    } else {
+      setContacts(persons.filter(person => person.name.toLowerCase().includes(filterValue)))
     }
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
-        <label htmlFor="filter">filter shown with</label>
-        <input name="filter" id="filter" type="text" onChange={filterContact} />
+      <Filter filterContact={filterContact}/>
       <h3>Add a new contact</h3>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input value={newName} onChange={addName} type="text" />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={addNumber} type="text"/>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Form addPerson={addPerson} newName={newName} addName={addName}
+            newNumber={newNumber} addNumber={addNumber} />
       <h2>Numbers</h2>
       <ul>
-        { filterContacts.map( person => <Contract key={person.id} name={person.name} number={person.number}/>) }
+        { filterContacts.map(person => <Contract key={person.id} name={person.name} number={person.number}/>) }
       </ul>
     </div>
   )

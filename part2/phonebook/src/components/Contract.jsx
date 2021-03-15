@@ -1,3 +1,5 @@
+import React from 'react';
+
 const Contract = (props) => {
   return (
     <>
@@ -6,4 +8,4 @@ const Contract = (props) => {
   )
 }
 
-export default Contract
+export default Contract;
