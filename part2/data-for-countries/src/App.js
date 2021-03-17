@@ -1,15 +1,22 @@
-import React from 'react';
+import React , { useState } from 'react';
 import Find from './components/Find.jsx';
+import Display from './components/Display.jsx';
 
 function App(props) {
-  const { countries } = props; 
+  const { countries } = props;
+  const [ searchEntries, setEntries ] = useState(countries);
 
   const findCountry = (event) => {
-    console.log(event.target.value);
+    let query = event.target.value;
+    
+    setEntries(countries.filter(country => country.name.toLowerCase().includes(query)));
   }
 
   return (
-    <div><Find findCountry={findCountry} /></div>
+    <div>
+      <Find findCountry={findCountry} />
+      <Display searchEntries={searchEntries} />
+    </div>
   );
 }
 
