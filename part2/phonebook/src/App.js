@@ -22,7 +22,7 @@ const App = () => {
       })
   }, [])
 
-  // Add new contact to the db.json
+  // Add new contact to the db.json + update the contact
   const addPerson = (event) => {
     event.preventDefault();
     const newContact = {
@@ -30,21 +30,30 @@ const App = () => {
       number: newNumber
     }
 
-    const found = persons.filter((person) => person.name === newContact.name)
+    const existContacts = persons.filter((person) => person.name === newContact.name)
+    const existContact = existContacts[0];
 
-    if (found.length > 0) {
-      const mes = `${newName} is already added to phonebook`
-      window.alert(mes)
+    if (existContacts.length > 0) {
+      const mes = `${newName} is already added to phonebook, replace the old number with 
+                   a new one?`;
+      const confirm = window.confirm(mes);
+      if (confirm) {
+        contactService
+          .updateContact(existContact.id, newContact)
+          .then(newContact => {
+            setContacts(persons.map(contact=> contact.id !== newContact.id ? contact : newContact));
+          })
+      }
     } else {
         contactService
           .createContact(newContact)
           .then(newContact => {
             setPersons(persons.concat(newContact));
             setContacts(filterContacts.concat(newContact));
-            setNewName('');
-            setNewNumber('');
           })
     }
+    setNewName('');
+    setNewNumber('');
   }
 
   // Delete a contact
