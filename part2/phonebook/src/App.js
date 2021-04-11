@@ -4,8 +4,6 @@ import Form from './components/Form.jsx';
 import Filter from './components/Filter.jsx';
 import contactService from './components/contactService.jsx';
 
-import axios from 'axios';
-
 const App = () => {
   const [ persons, setPersons ] = useState([])
   const [ newName, setNewName ] = useState('')
