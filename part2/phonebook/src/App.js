@@ -56,9 +56,12 @@ const App = () => {
       contactService
         .destroyContact(id)
         .then(() => {
-          console.log(`${destroyedContact.name} contact has been deleted.`)
+          const filteredContacts = persons.filter((contact) => contact.id !== id);
+          setPersons(filteredContacts);
+          setContacts(filteredContacts);
+          alert(`${destroyedContact.name} has been deleted.`);
         })
-      }
+    }
   }
 
   // Helpers event handler + filter handler
