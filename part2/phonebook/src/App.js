@@ -62,7 +62,9 @@ const App = (props) => {
             newNumber={newNumber} addNumber={addNumber} />
       <h2>Numbers</h2>
       <ul>
-        { filterContacts.map(person => <Contract key={person.id} name={person.name} number={person.number}/>) }
+        { filterContacts.map(person => <Contract key={person.id}
+                                                 name={person.name}
+                                                 number={person.number}/>) }
       </ul>
     </div>
   )
