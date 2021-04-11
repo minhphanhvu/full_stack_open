@@ -17,7 +17,14 @@ const Display = (props) => {
 
       return (
         <div>
-          {searchEntries.map(country => <p key={id++}>{country.name}</p>)}
+          {searchEntries.map(country => {
+            return (
+              <div key={id++}>
+                <p>{country.name}</p>
+                <button>Show</button>
+              </div>
+            );
+          })}
         </div>
       )
     }

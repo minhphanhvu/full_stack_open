@@ -11,7 +11,7 @@ const Country = (props) => {
       <p>population {population}</p>
       <h2>languages</h2>
       <ul>
-        {languages.map(language => <li key={id++} >{language.name}</li>)}
+        {languages.map(language => <li key={id++}>{language.name}</li>)}
       </ul>
       <img alt="flag" src={flag} width="100px" height="100px" />
     </div>
