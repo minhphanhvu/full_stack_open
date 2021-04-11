@@ -1,7 +1,6 @@
 import React from 'react';
 
-const Form = (props) => {
-  let { addPerson, newName, addName, newNumber, addNumber } = props;
+const Form = ({ addPerson, newName, addName, newNumber, addNumber }) => {
 
   return (
     <div>

@@ -1,7 +1,6 @@
 import React from 'react';
 
-const Filter = (props) => {
-  let { filterContact } = props;
+const Filter = ({ filterContact }) => {
  
   return (
     <div>
