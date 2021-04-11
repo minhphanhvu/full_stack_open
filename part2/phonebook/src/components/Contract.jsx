@@ -1,10 +1,11 @@
 import React from 'react';
 
-const Contract = (props) => {
+const Contract = ({ name, number, destroyContact, id }) => {
+
   return (
-    <div class="list">
-      <li>{props.name} {props.number}</li>
-      <button>delete</button> 
+    <div className="list">
+      <li>{name} {number}</li>
+      <button onClick={(event) => destroyContact(event, id)}>delete</button> 
     </div>
   )
 }

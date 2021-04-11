@@ -47,6 +47,16 @@ const App = () => {
     }
   }
 
+  // Delete a contact
+  const destroyContact = (event, id) => {
+    event.preventDefault();
+    contactService
+      .destroyContact(id)
+      .then(destroyedContact => {
+        console.log(`${destroyedContact.name} contact has been deleted.`)
+      })
+  }
+
   // Helpers event handler + filter handler
   const addName = (event) => {
     event.preventDefault();
@@ -83,9 +93,11 @@ const App = () => {
       {/*Contacts (filtered)*/}
       <h2>Numbers</h2>
       <ul>
-        { filterContacts.map(contact => <Contract key={contact.id}
+        {filterContacts.map(contact => <Contract key={contact.id}
+                                                 id={contact.id}
                                                  name={contact.name}
-                                                 number={contact.number}/>) }
+                                                 number={contact.number} 
+                                                 destroyContact={destroyContact} />)}
       </ul>
     </div>
   )
