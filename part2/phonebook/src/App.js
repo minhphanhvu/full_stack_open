@@ -55,11 +55,16 @@ const App = (props) => {
 
   return (
     <div>
+      {/*Filter function*/}
       <h2>Phonebook</h2>
       <Filter filterContact={filterContact}/>
+
+      {/*Add new contact*/}
       <h3>Add a new contact</h3>
       <Form addPerson={addPerson} newName={newName} addName={addName}
             newNumber={newNumber} addNumber={addNumber} />
+
+      {/*Contacts (filtered)*/}
       <h2>Numbers</h2>
       <ul>
         { filterContacts.map(person => <Contract key={person.id}
