@@ -50,11 +50,15 @@ const App = () => {
   // Delete a contact
   const destroyContact = (event, id) => {
     event.preventDefault();
-    contactService
-      .destroyContact(id)
-      .then(destroyedContact => {
-        console.log(`${destroyedContact.name} contact has been deleted.`)
-      })
+    const destroyedContact = persons.find((contact) => contact.id === id);
+    const confirm = window.confirm(`Delete ${destroyedContact.name} contact?`);
+    if (confirm) {
+      contactService
+        .destroyContact(id)
+        .then(() => {
+          console.log(`${destroyedContact.name} contact has been deleted.`)
+        })
+      }
   }
 
   // Helpers event handler + filter handler
