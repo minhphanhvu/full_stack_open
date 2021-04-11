@@ -3,12 +3,15 @@ import Contract from './components/Contract.jsx';
 import Form from './components/Form.jsx';
 import Filter from './components/Filter.jsx';
 import contactService from './components/contactService.jsx';
+import Message from './components/Message.jsx';
 
 const App = () => {
   const [ persons, setPersons ] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filterContacts, setContacts ] = useState([])
+  const [ message, setMessage ] = useState('')
+  const [ messageType, setMessageType ] = useState('')
 
   // 'RESTful' handling resources
 
@@ -41,6 +44,8 @@ const App = () => {
         contactService
           .updateContact(existContact.id, newContact)
           .then(newContact => {
+            setMessage(`${newContact.name} has been updated.`);
+            setMessageType('success');
             setContacts(persons.map(contact=> contact.id !== newContact.id ? contact : newContact));
           })
       }
@@ -48,6 +53,8 @@ const App = () => {
         contactService
           .createContact(newContact)
           .then(newContact => {
+            setMessage(`${newContact.name} has been added.`);
+            setMessageType('success');
             setPersons(persons.concat(newContact));
             setContacts(filterContacts.concat(newContact));
           })
@@ -68,7 +75,8 @@ const App = () => {
           const filteredContacts = persons.filter((contact) => contact.id !== id);
           setPersons(filteredContacts);
           setContacts(filteredContacts);
-          alert(`${destroyedContact.name} has been deleted.`);
+          setMessage(`${destroyedContact.name}'s contact has been deleted.`);
+          setMessageType('error');
         })
     }
   }
@@ -99,6 +107,7 @@ const App = () => {
     <div>
       {/*Filter function*/}
       <h2>Phonebook</h2>
+      <Message message={message} messageType={messageType} />
       <Filter filterContact={filterContact}/>
 
       {/*Add new contact*/}
