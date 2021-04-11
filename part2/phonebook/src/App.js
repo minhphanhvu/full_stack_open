@@ -4,14 +4,14 @@ import Form from './components/Form.jsx';
 import Filter from './components/Filter.jsx';
 
 const App = (props) => {
-  const [ persons, setPersons ] = useState(props.persons)
+  const [ persons, setPersons ] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filterContacts, setContacts ] = useState([])
   const [ id, setId ] = useState(0)
 
   const addPerson = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     const personObject = {
       id: id,
       name: newName,
@@ -33,14 +33,17 @@ const App = (props) => {
   }
 
   const addName = (event) => {
+    event.preventDefault();
     setNewName(event.target.value)
   }
 
   const addNumber = (event) => {
+    event.preventDefault();
     setNewNumber(event.target.value, 10)
   }
 
   const filterContact = (event) => {
+    event.preventDefault();
     const filterValue = event.target.value.toLowerCase()
 
     if (filterValue.length === 0){
