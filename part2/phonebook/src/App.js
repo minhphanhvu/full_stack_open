@@ -1,14 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Contract from './components/Contract.jsx';
 import Form from './components/Form.jsx';
 import Filter from './components/Filter.jsx';
 
-const App = (props) => {
+import axios from 'axios';
+
+const App = () => {
   const [ persons, setPersons ] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filterContacts, setContacts ] = useState([])
   const [ id, setId ] = useState(0)
+
+  // 'RESTful' handling resources
+
+  // Extract db.json (all contacts) from server
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        setPersons(response.data);
+        setContacts(response.data);
+      })
+  }, [])
 
   const addPerson = (event) => {
     event.preventDefault();
@@ -32,6 +46,7 @@ const App = (props) => {
     }
   }
 
+  // Helpers event handler + filter handler
   const addName = (event) => {
     event.preventDefault();
     setNewName(event.target.value)
