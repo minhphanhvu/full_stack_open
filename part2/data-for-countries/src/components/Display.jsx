@@ -2,10 +2,15 @@ import React from 'react';
 import Country from './Country.jsx';
 
 const Display = (props) => {
-  const { searchEntries } = props;
+  const { searchEntries, setDisplayEntries } = props;
   const size = searchEntries.length;
   let id = 0;
 
+  const showCountry = (country) => {
+    setDisplayEntries(searchEntries.filter(entry => entry.name === country.name));
+  }
+
+  // Return div
   if (size > 10) {
 
     return (
@@ -21,7 +26,7 @@ const Display = (props) => {
             return (
               <div key={id++}>
                 <p>{country.name}</p>
-                <button>Show</button>
+                <button onClick={() => showCountry(country)}>Show</button>
               </div>
             );
           })}

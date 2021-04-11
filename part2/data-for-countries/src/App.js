@@ -6,7 +6,7 @@ function App(props) {
   const { countries } = props;
   const [ searchEntries, setEntries ] = useState(countries);
 
-  const findCountry = (event) => {
+  const findCountry = event => {
     let query = event.target.value;
     
     setEntries(countries.filter(country => country.name.toLowerCase().includes(query)));
@@ -15,7 +15,7 @@ function App(props) {
   return (
     <div>
       <Find findCountry={findCountry} />
-      <Display searchEntries={searchEntries} />
+      <Display searchEntries={searchEntries} setDisplayEntries={setEntries}/>
     </div>
   );
 }
