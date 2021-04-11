@@ -10,7 +10,6 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filterContacts, setContacts ] = useState([])
-  const [ id, setId ] = useState(0)
 
   // 'RESTful' handling resources
 
@@ -24,10 +23,10 @@ const App = () => {
       })
   }, [])
 
+  // Add new contact to the db.json
   const addPerson = (event) => {
     event.preventDefault();
     const personObject = {
-      id: id,
       name: newName,
       number: newNumber
     }
@@ -38,11 +37,14 @@ const App = () => {
       const mes = `${newName} is already added to phonebook`
       window.alert(mes)
     } else {
-        setId(id + 1);
-        setPersons(persons.concat(personObject));
-        setContacts(filterContacts.concat(personObject));
-        setNewName('');
-        setNewNumber('');
+        axios
+          .post('http://localhost:3001/persons', personObject)
+          .then(response => {
+            setPersons(persons.concat(response.data));
+            setContacts(filterContacts.concat(response.data));
+            setNewName('');
+            setNewNumber('');
+          })
     }
   }
 
