@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Contract from './components/Contract.jsx';
 import Form from './components/Form.jsx';
 import Filter from './components/Filter.jsx';
+import contactService from './components/contactService.jsx';
 
 import axios from 'axios';
 
@@ -15,11 +16,11 @@ const App = () => {
 
   // Extract db.json (all contacts) from server
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data);
-        setContacts(response.data);
+    contactService
+      .getAllContacts()
+      .then(initialContacts => {
+        setPersons(initialContacts);
+        setContacts(initialContacts);
       })
   }, [])
 
@@ -37,11 +38,11 @@ const App = () => {
       const mes = `${newName} is already added to phonebook`
       window.alert(mes)
     } else {
-        axios
-          .post('http://localhost:3001/persons', personObject)
-          .then(response => {
-            setPersons(persons.concat(response.data));
-            setContacts(filterContacts.concat(response.data));
+        contactService
+          .createContact(personObject)
+          .then(newContact => {
+            setPersons(persons.concat(newContact));
+            setContacts(filterContacts.concat(newContact));
             setNewName('');
             setNewNumber('');
           })
