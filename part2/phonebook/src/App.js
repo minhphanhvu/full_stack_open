@@ -27,19 +27,19 @@ const App = () => {
   // Add new contact to the db.json
   const addPerson = (event) => {
     event.preventDefault();
-    const personObject = {
+    const newContact = {
       name: newName,
       number: newNumber
     }
 
-    const found = persons.filter((person) => person.name === personObject.name)
+    const found = persons.filter((person) => person.name === newContact.name)
 
     if (found.length > 0) {
       const mes = `${newName} is already added to phonebook`
       window.alert(mes)
     } else {
         contactService
-          .createContact(personObject)
+          .createContact(newContact)
           .then(newContact => {
             setPersons(persons.concat(newContact));
             setContacts(filterContacts.concat(newContact));
