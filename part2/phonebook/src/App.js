@@ -83,9 +83,9 @@ const App = () => {
       {/*Contacts (filtered)*/}
       <h2>Numbers</h2>
       <ul>
-        { filterContacts.map(person => <Contract key={person.id}
-                                                 name={person.name}
-                                                 number={person.number}/>) }
+        { filterContacts.map(contact => <Contract key={contact.id}
+                                                 name={contact.name}
+                                                 number={contact.number}/>) }
       </ul>
     </div>
   )

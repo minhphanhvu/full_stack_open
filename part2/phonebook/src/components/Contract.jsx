@@ -2,9 +2,10 @@ import React from 'react';
 
 const Contract = (props) => {
   return (
-    <>
-      <li>{props.name} {props.number}</li> 
-    </>
+    <div class="list">
+      <li>{props.name} {props.number}</li>
+      <button>delete</button> 
+    </div>
   )
 }
 
