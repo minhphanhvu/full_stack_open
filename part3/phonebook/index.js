@@ -26,6 +26,15 @@ let persons = [
   }
 ]
 
+// Helpers
+
+const generateId = () => {
+  const maxId = persons.length > 0
+    ? Math.max(...persons.map(p => p.id))
+    : 0
+  return maxId + 1
+}
+
 // RESTful routes
 
 app.get('/api/persons', (request, response) => {
@@ -58,6 +67,27 @@ app.get('/api/info', (request, response) => {
   const timeResponse = '<p>' + today.toUTCString() + '</p>'
 
   response.send(numberOfPersons + timeResponse)
+})
+
+app.post('/api/persons', (request, response) => {
+  const name = request.body.name
+  const number = String(request.body.number)
+
+  if (!name || !number) {
+    return response.status(400).json({
+      error: 'either name or number missing'
+    })
+  }
+
+  const person = {
+    name: name,
+    number: number,
+    id: generateId()
+  }
+
+  persons = persons.concat(person)
+
+  response.json(persons)
 })
 
 const PORT = 3001
