@@ -5,6 +5,10 @@ const app = express()
 app.use(express.json())
 app.use(morgan('tiny'))
 
+// Custom morgan for POST method
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :json'))
+
+
 let persons = [
   {
     id: 1,
@@ -36,6 +40,9 @@ const generateId = () => {
     : 0
   return maxId + 1
 }
+
+// Defien new morgan tokenconst getJSON = () => {
+morgan.token('json', function(req, res) {{ return JSON.stringify(req.body)}} )
 
 // RESTful routes
 
@@ -72,6 +79,7 @@ app.get('/api/info', (request, response) => {
 })
 
 app.post('/api/persons', (request, response) => {
+  // Define custom morgan
   const name = request.body.name
   const number = request.body.number
 
