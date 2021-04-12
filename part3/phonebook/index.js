@@ -44,6 +44,14 @@ app.get('/api/persons/:id', (request, response) => {
   }
 })
 
+app.delete('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id)
+  persons = persons.filter(person => person.id !== id)
+
+  console.log(persons)
+  response.status(204).end()
+})
+
 app.get('/api/info', (request, response) => {
   const numberOfPersons = `<p>Phonebook has info for ${persons.length} people</p>`
   const today = new Date(Date.now())
