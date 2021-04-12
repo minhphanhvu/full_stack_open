@@ -71,9 +71,16 @@ app.get('/api/info', (request, response) => {
 
 app.post('/api/persons', (request, response) => {
   const name = request.body.name
-  const number = String(request.body.number)
+  const number = request.body.number
 
-  if (!name || !number) {
+  const foundName = persons.find(p => p.name === name)
+
+  if (foundName) {
+    return response.status(400).json({
+      error: 'name must be unique'
+    })
+  }
+  else if (!name || !number) {
     return response.status(400).json({
       error: 'either name or number missing'
     })
