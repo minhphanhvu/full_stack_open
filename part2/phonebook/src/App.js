@@ -46,7 +46,12 @@ const App = () => {
           .then(newContact => {
             setMessage(`${newContact.name} has been updated.`);
             setMessageType('success');
-            setContacts(persons.map(contact=> contact.id !== newContact.id ? contact : newContact));
+            setContacts(persons.map(contact => contact.id !== newContact.id ? contact : newContact));
+          })
+          .catch(() => {
+            setMessage(`${newContact.name} information has already been removed from the server.`);
+            setMessageType('error');
+            setContacts(persons.filter(contact => contact.id !== existContact.id));
           })
       }
     } else {
