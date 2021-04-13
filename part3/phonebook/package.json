@@ -4,11 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node index.js",
     "build": "react-scripts build",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "node index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "proxy": "http://localhost:3001",
   "author": "Minh Vu",
