@@ -1,4 +1,4 @@
-# Visit the production product on Heroku [here](https://finnsphonebook.herokuapp.com/)
+### Visit the production product on Heroku [here](https://finnsphonebook.herokuapp.com/)
 
 ## Deployed server/app
 
