@@ -1,3 +1,4 @@
+// Set env variables in local file
 require('dotenv').config()
 
 const express = require('express')
@@ -28,6 +29,7 @@ morgan.token('json', function(req, res) {{ return JSON.stringify(req.body)}} )
 
 // RESTful routes
 
+// Get all contacts
 app.get('/api/persons', (request, response) => {
   Contact.find({}, function (err, contacts) {
     if (err) {
@@ -39,6 +41,7 @@ app.get('/api/persons', (request, response) => {
   })
 })
 
+// Get contact by id
 app.get('/api/persons/:id', (request, response) => {
   const id = request.params.id
   Contact.findById(id, function (err, contact) {
@@ -51,12 +54,18 @@ app.get('/api/persons/:id', (request, response) => {
   })
 })
 
+// Delete a contact by id
 app.delete('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id)
-  persons = persons.filter(person => person.id !== id)
-
-  console.log(persons)
-  response.status(204).end()
+  const id = request.params.id
+  Contact.findByIdAndDelete(id, function(err) {
+    if (err) {
+      response.json({error: `${err.message}`})
+      response.status(400).end()
+    } else {
+      response.json({error: 'Item deleted'})
+      response.status(204).end()
+    }
+  })
 })
 
 app.get('/api/info', (request, response) => {
