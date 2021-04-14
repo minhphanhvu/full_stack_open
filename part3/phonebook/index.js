@@ -31,27 +31,35 @@ morgan.token('json', function(req, res) {{ return JSON.stringify(req.body)}} )
 
 // Get all contacts
 app.get('/api/persons', (request, response) => {
-  Contact.find({}, function (err, contacts) {
-    if (err) {
-      response.json({error: `${err.message}`})
-      response.status(404).end()
-    } else {
-      response.json(contacts)
-    }
-  })
+  Contact.find({})
+         .then(contacts => {
+           if (contacts) {
+             response.json(contacts)
+           } else {
+             response.status(404).end()
+           }
+         })
+         .catch(err => {
+           console.log(err)
+           response.status(500).end()
+         })
 })
 
 // Get contact by id
 app.get('/api/persons/:id', (request, response) => {
   const id = request.params.id
-  Contact.findById(id, function (err, contact) {
-    if (err) {
-      response.json({error: `${err.message}`})
-      response.status(404).end()
-    } else {
-      response.json(contact)
-    }
-  })
+  Contact.findById(id)
+         .then(contact => {
+           if (contact) {
+             response.json(contact)
+           } else {
+             response.status(404).end()
+           }
+         })
+         .catch(err => {
+           console.log(err)
+           response.status(500).end()
+         })
 })
 
 // Delete a contact by id
