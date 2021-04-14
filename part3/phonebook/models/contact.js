@@ -13,8 +13,14 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFind
         })
 
 const contactSchema = new mongoose.Schema({
-  name: String,
-  number: String
+  name: {
+    type: String,
+    required: true
+  },
+  number: {
+    type: String,
+    required: true
+  }
 })
 
 // Set id object to id string (not number)

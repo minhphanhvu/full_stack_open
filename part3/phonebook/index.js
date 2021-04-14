@@ -15,15 +15,6 @@ app.use(express.json())
 // Custom morgan for POST method
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :json'))
 
-// Helpers
-
-const generateId = () => {
-  const maxId = persons.length > 0
-    ? Math.max(...persons.map(p => p.id))
-    : 0
-  return maxId + 1
-}
-
 // Defien new morgan tokenconst getJSON = () => {
 morgan.token('json', function(req, res) {{ return JSON.stringify(req.body)}} )
 
@@ -88,12 +79,6 @@ app.post('/api/persons', (request, response, next) => {
   const name = request.body.name
   const number = request.body.number
 
-  if (!name || !number) {
-    return response.status(400).json({
-      error: 'either name or number missing'
-    })
-  }
-
   Contact.count({'name': name}, function (err, count) {
     if (count > 0) {
       return response.status(400).json({error: `Name must be unique`})
@@ -147,6 +132,8 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
   }
 
   next(error)
