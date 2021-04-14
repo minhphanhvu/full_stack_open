@@ -68,12 +68,19 @@ app.delete('/api/persons/:id', (request, response) => {
   })
 })
 
+// Return information about the collection
 app.get('/api/info', (request, response) => {
-  const numberOfPersons = `<p>Phonebook has info for ${persons.length} people</p>`
-  const today = new Date(Date.now())
-  const timeResponse = '<p>' + today.toUTCString() + '</p>'
-
-  response.send(numberOfPersons + timeResponse)
+  Contact.find({}, function (err, contacts) {
+    if (err) {
+      response.json({error: `${err.message}`})
+      response.status(404).end()
+    } else {
+      const numberOfPersons = `<p>Phonebook has info for ${contacts.length} people</p>`
+      const today = new Date(Date.now())
+      const timeResponse = '<p>' + today.toUTCString() + '</p>'
+      response.send(numberOfPersons + timeResponse)
+    }
+  })
 })
 
 app.post('/api/persons', (request, response) => {
