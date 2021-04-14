@@ -49,7 +49,7 @@ const App = () => {
             setContacts(persons.map(contact => contact.name !== updatedContact.name ? contact : updatedContact));
           })
           .catch(() => {
-            setMessage(`${contact.name} information has already been removed from the server.`);
+            setMessage(`${contact.name} contact has already been removed`)
             setMessageType('error');
             setContacts(persons.filter(contact => contact.name !== existContact.name));
           })
@@ -62,6 +62,11 @@ const App = () => {
             setMessageType('success');
             setPersons(persons.concat(newContact));
             setContacts(filterContacts.concat(newContact));
+          })
+          .catch(error => {
+            setMessage(`${error.response.data.error}`);
+            setMessageType('error');
+            setContacts(persons);
           })
     }
     setNewName('');

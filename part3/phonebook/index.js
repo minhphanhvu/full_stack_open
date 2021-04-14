@@ -79,22 +79,18 @@ app.post('/api/persons', (request, response, next) => {
   const name = request.body.name
   const number = request.body.number
 
-  Contact.count({'name': name}, function (err, count) {
-    if (count > 0) {
-      return response.status(400).json({error: `Name must be unique`})
-    }
-  })
-
   const contact = new Contact({
     name: name,
     number: number
   })
 
-  contact.save()
-         .then(savedContact => {
-           response.json(savedContact)
-         })
-         .catch(err => next(err))
+  contact
+      .save()
+      .then(savedContact => savedContact.toJSON())
+      .then(savedAndFormatedContact => {
+        response.json(savedAndFormatedContact)
+      })
+      .catch(error => next(error))
 })
 
 // Updating the existing contact
@@ -113,10 +109,10 @@ app.put('/api/persons/:id', (request, response, next) => {
             if(updatedContact) {
               response.json(updatedContact)
             } else {
-              throw new Error('None existing contact')
+              throw new Error(`${name} contact has already been removed.`)
             }
          })
-         .catch(err => next(err))
+         .catch(error => next(error))
 })
 
 const unknownEndpoint = (request, response) => {
@@ -128,7 +124,7 @@ app.use(unknownEndpoint)
 
 // Hanlder requests with errors
 const errorHandler = (error, request, response, next) => {
-  console.log(error)
+  console.error(error.message)
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })

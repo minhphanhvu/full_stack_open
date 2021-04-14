@@ -7,7 +7,8 @@
     "start": "node index.js",
     "build": "react-scripts build",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "npm-watch"
   },
   "proxy": "http://localhost:3001",
   "author": "Minh Vu",
@@ -18,6 +19,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.12.3",
+    "mongoose-unique-validator": "^2.0.3",
     "morgan": "^1.10.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -25,7 +27,8 @@
     "web-vitals": "^0.2.4"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "npm-watch": "^0.9.0"
   },
   "browserslist": {
     "production": [
