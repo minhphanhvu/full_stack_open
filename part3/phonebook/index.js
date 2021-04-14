@@ -30,7 +30,7 @@ morgan.token('json', function(req, res) {{ return JSON.stringify(req.body)}} )
 // RESTful routes
 
 // Get all contacts
-app.get('/api/persons', (request, response) => {
+app.get('/api/persons', (request, response, next) => {
   Contact.find({})
          .then(contacts => {
            if (contacts) {
@@ -39,14 +39,11 @@ app.get('/api/persons', (request, response) => {
              response.status(404).end()
            }
          })
-         .catch(err => {
-           console.log(err)
-           response.status(500).end()
-         })
+         .catch(err => next(err))
 })
 
 // Get contact by id
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response, next) => {
   const id = request.params.id
 
   Contact.findById(id)
@@ -57,14 +54,11 @@ app.get('/api/persons/:id', (request, response) => {
              response.status(404).end()
            }
          })
-         .catch(err => {
-           console.log(err)
-           response.status(500).end()
-         })
+         .catch(err => next(err))
 })
 
 // Delete a contact by id
-app.delete('/api/persons/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response, next) => {
   const id = request.params.id
 
   Contact.findByIdAndDelete(id)
@@ -72,18 +66,14 @@ app.delete('/api/persons/:id', (request, response) => {
            console.log(result)
            response.status(204).end()
          })
-         .catch(err => {
-           console.log(err)
-           response.status(500).end()
-         })
+         .catch(err => next(err))
 })
 
 // Return information about the collection
-app.get('/api/info', (request, response) => {
+app.get('/api/info', (request, response, next) => {
   Contact.find({}, function (err, contacts) {
     if (err) {
-      response.json({error: `${err.message}`})
-      response.status(404).end()
+      next(err)
     } else {
       const numberOfPersons = `<p>Phonebook has info for ${contacts.length} people</p>`
       const today = new Date(Date.now())
@@ -94,7 +84,7 @@ app.get('/api/info', (request, response) => {
 })
 
 // Creating a new contact
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
   const name = request.body.name
   const number = request.body.number
 
@@ -119,14 +109,11 @@ app.post('/api/persons', (request, response) => {
          .then(savedContact => {
            response.json(savedContact)
          })
-         .catch(err => {
-           console.log(err)
-           response.status(500).end()
-         })
+         .catch(err => next(err))
 })
 
 // Updating the existing contact
-app.put('/api/persons/:id', (request, response) => {
+app.put('/api/persons/:id', (request, response, next) => {
   const id = request.params.id
   const name = request.body.name
   const number = request.body.number
@@ -144,11 +131,28 @@ app.put('/api/persons/:id', (request, response) => {
               throw new Error('None existing contact')
             }
          })
-         .catch(err => {
-           console.log(err)
-           response.status(500).end()
-         })
+         .catch(err => next(err))
 })
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+// Handler of requests with unknown endpoint
+app.use(unknownEndpoint)
+
+// Hanlder requests with errors
+const errorHandler = (error, request, response, next) => {
+  console.log(error)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  }
+
+  next(error)
+}
+
+app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
