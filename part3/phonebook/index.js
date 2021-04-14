@@ -110,6 +110,24 @@ app.post('/api/persons', (request, response) => {
   })
 })
 
+// Updating the existing contact
+app.put('/api/persons/:id', (request, response) => {
+  const id = request.params.id
+  const name = request.body.name
+  const number = request.body.number
+
+  const contact = {
+    name: name,
+    number: number
+  }
+
+  Contact.findByIdAndUpdate(id, contact, { new: true })
+         .then(newContact => {
+            response.json(newContact)
+         })
+         .catch(err => response.status(404).json({error: err.message}))
+})
+
 const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)

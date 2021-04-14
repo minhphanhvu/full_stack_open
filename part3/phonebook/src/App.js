@@ -28,12 +28,12 @@ const App = () => {
   // Add new contact to the db.json + update the contact
   const addPerson = (event) => {
     event.preventDefault();
-    const newContact = {
+    const contact = {
       name: newName,
       number: newNumber
     }
 
-    const existContacts = persons.filter((person) => person.name === newContact.name)
+    const existContacts = persons.filter((person) => person.name === contact.name)
     const existContact = existContacts[0];
 
     if (existContacts.length > 0) {
@@ -42,16 +42,16 @@ const App = () => {
       const confirm = window.confirm(mes);
       if (confirm) {
         contactService
-          .updateContact(existContact.id, newContact)
-          .then(newContact => {
-            setMessage(`${newContact.name} has been updated.`);
+          .updateContact(existContact.id, contact)
+          .then(updatedContact => {
+            setMessage(`${updatedContact.name} has been updated.`);
             setMessageType('success');
-            setContacts(persons.map(contact => contact.id !== newContact.id ? contact : newContact));
+            setContacts(persons.map(contact => contact.name !== updatedContact.name ? contact : updatedContact));
           })
           .catch(() => {
-            setMessage(`${newContact.name} information has already been removed from the server.`);
+            setMessage(`${contact.name} information has already been removed from the server.`);
             setMessageType('error');
-            setContacts(persons.filter(contact => contact.id !== existContact.id));
+            setContacts(persons.filter(contact => contact.name !== existContact.name));
           })
       }
     } else {
