@@ -48,6 +48,7 @@ app.get('/api/persons', (request, response) => {
 // Get contact by id
 app.get('/api/persons/:id', (request, response) => {
   const id = request.params.id
+
   Contact.findById(id)
          .then(contact => {
            if (contact) {
@@ -65,15 +66,16 @@ app.get('/api/persons/:id', (request, response) => {
 // Delete a contact by id
 app.delete('/api/persons/:id', (request, response) => {
   const id = request.params.id
-  Contact.findByIdAndDelete(id, function(err) {
-    if (err) {
-      response.json({error: `${err.message}`})
-      response.status(400).end()
-    } else {
-      response.json({error: 'Item deleted'})
-      response.status(204).end()
-    }
-  })
+
+  Contact.findByIdAndDelete(id)
+         .then(result => {
+           console.log(result)
+           response.status(204).end()
+         })
+         .catch(err => {
+           console.log(err)
+           response.status(500).end()
+         })
 })
 
 // Return information about the collection
@@ -113,9 +115,14 @@ app.post('/api/persons', (request, response) => {
     number: number
   })
 
-  contact.save().then(savedContact => {
-    response.json(savedContact)
-  })
+  contact.save()
+         .then(savedContact => {
+           response.json(savedContact)
+         })
+         .catch(err => {
+           console.log(err)
+           response.status(500).end()
+         })
 })
 
 // Updating the existing contact
@@ -130,10 +137,17 @@ app.put('/api/persons/:id', (request, response) => {
   }
 
   Contact.findByIdAndUpdate(id, contact, { new: true })
-         .then(newContact => {
-            response.json(newContact)
+         .then(updatedContact => {
+            if(updatedContact) {
+              response.json(updatedContact)
+            } else {
+              throw new Error('None existing contact')
+            }
          })
-         .catch(err => response.status(404).json({error: err.message}))
+         .catch(err => {
+           console.log(err)
+           response.status(500).end()
+         })
 })
 
 const PORT = process.env.PORT
