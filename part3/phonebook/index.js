@@ -9,34 +9,10 @@ const app = express()
 app.use(cors())
 app.use(express.static('build'))
 app.use(express.json())
-app.use(morgan('tiny'))
+// app.use(morgan('tiny'))
 
 // Custom morgan for POST method
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :json'))
-
-
-let persons = [
-  {
-    id: 1,
-    name: "Arto Hellas",
-    number: "040-123456"
-  },
-  {
-    id: 2,
-    name: "Ada Lovelace",
-    number: "39-44-5325235"
-  },
-  {
-    id: 3,
-    name: "Dan Abramov",
-    number: "12-43-234345"
-  },
-  {
-    id: 4,
-    name: "Mary Poppendick",
-    number: "39-23-6423122"
-  }
-]
 
 // Helpers
 
@@ -53,7 +29,9 @@ morgan.token('json', function(req, res) {{ return JSON.stringify(req.body)}} )
 // RESTful routes
 
 app.get('/api/persons', (request, response) => {
-  response.json(persons)
+  Contact.find({}).then(contacts => {
+    response.json(contacts)
+  })
 })
 
 app.get('/api/persons/:id', (request, response) => {
