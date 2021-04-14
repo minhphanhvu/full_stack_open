@@ -56,7 +56,7 @@ const App = () => {
       }
     } else {
         contactService
-          .createContact(newContact)
+          .createContact(contact)
           .then(newContact => {
             setMessage(`${newContact.name} has been added.`);
             setMessageType('success');
