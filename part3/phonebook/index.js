@@ -35,15 +35,15 @@ app.get('/api/persons', (request, response) => {
 })
 
 app.get('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id)
-  const person = persons.find(person => person.id === id)
-
-  if (person) {
-    response.json(person)
-  } else {
-    response.send('<p>No info found</p>')
-    response.status(404).end()
-  }
+  const id = request.params.id
+  Contact.findById(id, function (err, contact) {
+    if (err) {
+      response.json({error: 'Not Found'})
+      response.status(404).end()
+    } else {
+      response.json(contact)
+    }
+  })
 })
 
 app.delete('/api/persons/:id', (request, response) => {
