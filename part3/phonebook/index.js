@@ -29,8 +29,13 @@ morgan.token('json', function(req, res) {{ return JSON.stringify(req.body)}} )
 // RESTful routes
 
 app.get('/api/persons', (request, response) => {
-  Contact.find({}).then(contacts => {
-    response.json(contacts)
+  Contact.find({}, function (err, contacts) {
+    if (err) {
+      response.json({error: `${err.message}`})
+      response.status(404).end()
+    } else {
+      response.json(contacts)
+    }
   })
 })
 
@@ -38,7 +43,7 @@ app.get('/api/persons/:id', (request, response) => {
   const id = request.params.id
   Contact.findById(id, function (err, contact) {
     if (err) {
-      response.json({error: 'Not Found'})
+      response.json({error: `${err.message}`})
       response.status(404).end()
     } else {
       response.json(contact)
