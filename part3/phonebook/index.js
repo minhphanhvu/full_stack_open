@@ -83,33 +83,31 @@ app.get('/api/info', (request, response) => {
   })
 })
 
+// Creating a new contact
 app.post('/api/persons', (request, response) => {
-  // Define custom morgan
   const name = request.body.name
   const number = request.body.number
 
-  const foundName = persons.find(p => p.name === name)
-
-  if (foundName) {
-    return response.status(400).json({
-      error: 'name must be unique'
-    })
-  }
-  else if (!name || !number) {
+  if (!name || !number) {
     return response.status(400).json({
       error: 'either name or number missing'
     })
   }
 
-  const person = {
+  Contact.count({'name': name}, function (err, count) {
+    if (count > 0) {
+      return response.status(400).json({error: `Name must be unique`})
+    }
+  })
+
+  const contact = new Contact({
     name: name,
-    number: number,
-    id: generateId()
-  }
+    number: number
+  })
 
-  persons = persons.concat(person)
-
-  response.json(persons)
+  contact.save().then(savedContact => {
+    response.json(savedContact)
+  })
 })
 
 const PORT = process.env.PORT
