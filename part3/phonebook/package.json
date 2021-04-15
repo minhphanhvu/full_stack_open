@@ -8,7 +8,8 @@
     "build": "react-scripts build",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "npm-watch"
+    "watch": "npm-watch",
+    "lint": "eslint ."
   },
   "proxy": "http://localhost:3001",
   "author": "Minh Vu",
@@ -27,6 +28,7 @@
     "web-vitals": "^0.2.4"
   },
   "devDependencies": {
+    "eslint": "^7.24.0",
     "nodemon": "^2.0.7",
     "npm-watch": "^0.9.0"
   },
