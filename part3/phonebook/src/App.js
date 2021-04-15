@@ -48,10 +48,15 @@ const App = () => {
             setMessageType('success')
             setContacts(persons.map(contact => contact.name !== updatedContact.name ? contact : updatedContact))
           })
-          .catch(() => {
-            setMessage(`${contact.name} contact has already been removed`)
-            setMessageType('error')
-            setContacts(persons.filter(contact => contact.name !== existContact.name))
+          .catch((error) => {
+            if (error.response.data.error) {
+              setMessage(`${error.response.data.error}`)
+              setMessageType('error')
+            } else {
+              setMessage(`${contact.name} contact has already been removed`)
+              setMessageType('error')
+              setContacts(persons.filter(contact => contact.name !== existContact.name))
+              }
           })
       }
     } else {

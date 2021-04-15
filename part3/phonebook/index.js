@@ -96,20 +96,12 @@ app.post('/api/persons', (request, response, next) => {
 // Updating the existing contact
 app.put('/api/persons/:id', (request, response, next) => {
   const id = request.params.id
-  const name = request.body.name
   const number = request.body.number
 
-  const contact = {
-    name: name,
-    number: number
-  }
-
-  Contact.findByIdAndUpdate(id, contact, { new: true })
+  Contact.findByIdAndUpdate(id, { number }, { new: true , runValidators: true })
     .then(updatedContact => {
       if(updatedContact) {
         response.json(updatedContact)
-      } else {
-        throw new Error(`${name} contact has already been removed.`)
       }
     })
     .catch(error => next(error))
