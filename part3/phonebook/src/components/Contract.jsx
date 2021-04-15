@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const Contract = ({ name, number, destroyContact, id }) => {
 
@@ -10,4 +10,4 @@ const Contract = ({ name, number, destroyContact, id }) => {
   )
 }
 
-export default Contract;
+export default Contract

@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 
 const Message = ({ message, messageType }) => {
   if (!message) {
-    return null;
+    return null
   } else {
     return (
       <div className={messageType}>
@@ -12,4 +12,4 @@ const Message = ({ message, messageType }) => {
   }
 }
 
-export default Message;
+export default Message

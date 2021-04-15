@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const Form = ({ addPerson, newName, addName, newNumber, addNumber }) => {
 
@@ -19,4 +19,4 @@ const Form = ({ addPerson, newName, addName, newNumber, addNumber }) => {
   )
 }
 
-export default Form;
+export default Form
