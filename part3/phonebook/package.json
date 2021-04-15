@@ -33,7 +33,7 @@
         "src",
         "src/components"
       ],
-      "exntensions": "js,jsx"
+      "exntensions": "js,jsx,css"
     }
   },
   "devDependencies": {

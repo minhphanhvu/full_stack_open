@@ -4,7 +4,7 @@ const Filter = ({ filterContact }) => {
  
   return (
     <div>
-      <label htmlFor="filter">filter shown with</label>
+      <label htmlFor="filter">Filter shown with</label>
       <input name="filter" id="filter" type="text" onChange={filterContact} />
     </div>
   )
