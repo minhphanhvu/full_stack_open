@@ -30,7 +30,8 @@
   "watch": {
     "build": {
       "patterns": [
-        "src"
+        "src",
+        "src/components"
       ],
       "exntensions": "js,jsx"
     }
