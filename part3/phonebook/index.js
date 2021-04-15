@@ -23,14 +23,14 @@ morgan.token('json', function(req, res) {{ return JSON.stringify(req.body)}} )
 // Get all contacts
 app.get('/api/persons', (request, response, next) => {
   Contact.find({})
-         .then(contacts => {
-           if (contacts) {
-             response.json(contacts)
-           } else {
-             response.status(404).end()
-           }
-         })
-         .catch(err => next(err))
+    .then(contacts => {
+      if (contacts) {
+        response.json(contacts)
+      } else {
+        response.status(404).end()
+      }
+    })
+    .catch(err => next(err))
 })
 
 // Get contact by id
@@ -38,14 +38,14 @@ app.get('/api/persons/:id', (request, response, next) => {
   const id = request.params.id
 
   Contact.findById(id)
-         .then(contact => {
-           if (contact) {
-             response.json(contact)
-           } else {
-             response.status(404).end()
-           }
-         })
-         .catch(err => next(err))
+    .then(contact => {
+      if (contact) {
+        response.json(contact)
+      } else {
+        response.status(404).end()
+      }
+    })
+    .catch(err => next(err))
 })
 
 // Delete a contact by id
@@ -53,11 +53,11 @@ app.delete('/api/persons/:id', (request, response, next) => {
   const id = request.params.id
 
   Contact.findByIdAndDelete(id)
-         .then(result => {
-           console.log(result)
-           response.status(204).end()
-         })
-         .catch(err => next(err))
+    .then(result => {
+      console.log(result)
+      response.status(204).end()
+    })
+    .catch(err => next(err))
 })
 
 // Return information about the collection
@@ -85,12 +85,12 @@ app.post('/api/persons', (request, response, next) => {
   })
 
   contact
-      .save()
-      .then(savedContact => savedContact.toJSON())
-      .then(savedAndFormatedContact => {
-        response.json(savedAndFormatedContact)
-      })
-      .catch(error => next(error))
+    .save()
+    .then(savedContact => savedContact.toJSON())
+    .then(savedAndFormatedContact => {
+      response.json(savedAndFormatedContact)
+    })
+    .catch(error => next(error))
 })
 
 // Updating the existing contact
@@ -105,14 +105,14 @@ app.put('/api/persons/:id', (request, response, next) => {
   }
 
   Contact.findByIdAndUpdate(id, contact, { new: true })
-         .then(updatedContact => {
-            if(updatedContact) {
-              response.json(updatedContact)
-            } else {
-              throw new Error(`${name} contact has already been removed.`)
-            }
-         })
-         .catch(error => next(error))
+    .then(updatedContact => {
+      if(updatedContact) {
+        response.json(updatedContact)
+      } else {
+        throw new Error(`${name} contact has already been removed.`)
+      }
+    })
+    .catch(error => next(error))
 })
 
 const unknownEndpoint = (request, response) => {
