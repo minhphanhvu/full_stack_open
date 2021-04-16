@@ -13,12 +13,12 @@ logger.info('Connecting to', config.MONGODB_URI)
 
 const mongoUrl = `${config.MONGODB_URI}`
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
-        .then(() => {
-          logger.info('connected to MongoDB')
-        })
-        .catch((error) => {
-          logger.error('error connected to MongoDB', error.message)
-        })
+  .then(() => {
+    logger.info('connected to MongoDB')
+  })
+  .catch((error) => {
+    logger.error('error connected to MongoDB', error.message)
+  })
 
 // Using cors and body-parser
 app.use(cors())
