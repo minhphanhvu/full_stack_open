@@ -1,3 +1,5 @@
+const lodash = require('lodash')
+
 const dummy = (blogs) => {
   return 1
 }
@@ -20,11 +22,52 @@ const favoriteBlog = (blogs) => {
   return blogs.sort(compare)[blogs.length - 1]
 }
 
-const mostBlogs 
+const mostBlogs = (blogs) => {
+  const authors = blogs.reduce((authors, blog) => {
+    if (!authors[blog.author]) {
+      authors[blog.author] = {
+        author: blog.author,
+        blogs: 1
+      }
+    } else {
+      authors[blog.author].blogs += 1
+    }
+    return authors
+  }, {})
+
+  return Object.keys(authors).reduce((mostBlogsAuthor, name) => {
+    if (authors[name].blogs > (mostBlogsAuthor.blogs||0)) {
+      return authors[name]
+    }
+    return mostBlogsAuthor
+  }, {})
+}
+
+const mostLikes = (blogs) => {
+  const authors = blogs.reduce((authors, blog) => {
+    if (!authors[blog.author]) {
+      authors[blog.author] = {
+        author: blog.author,
+        likes: blog.likes
+      }
+    } else {
+      authors[blog.author].likes += blog.likes
+    }
+    return authors
+  }, {})
+
+  return Object.keys(authors).reduce((mostBlogsAuthor, name) => {
+    if (authors[name].likes > (mostBlogsAuthor.likes||0)) {
+      return authors[name]
+    }
+    return mostBlogsAuthor
+  }, {})
+}
 
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 }
