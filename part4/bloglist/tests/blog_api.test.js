@@ -51,6 +51,25 @@ test('a blog is added to the blogs', async () => {
   )
 })
 
+test('a blog without likes added will be default to 0', async() => {
+  const newBlog = {
+    title: "Full stack page",
+    author: "make-up",
+    url: "https://fullstackopen.com/en/"
+  }
+
+  await api.post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
+
+  const newAddedBlog = blogsAtEnd.filter(blog => blog.likes === 0)
+  expect(newAddedBlog).toBeDefined()
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
