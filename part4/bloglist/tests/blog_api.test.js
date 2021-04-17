@@ -29,6 +29,28 @@ test('all blogs does have unique identifier named id', async () => {
   })
 })
 
+test('a blog is added to the blogs', async () => {
+  const newBlog = {
+    title: "Full stack page",
+    author: "make-up",
+    url: "https://fullstackopen.com/en/",
+    likes: 10
+  }
+
+  await api.post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
+
+  const authors = blogsAtEnd.map(blog => blog.author)
+  expect(authors).toContain(
+    'make-up'
+  )
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
