@@ -70,6 +70,17 @@ test('a blog without likes added will be default to 0', async() => {
   expect(newAddedBlog).toBeDefined()
 })
 
+test('a blog without title and url send back a request status 400', async() => {
+  const newBlog = {
+    title: "Full stack page",
+    likes: 10
+  }
+
+  await api.post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
