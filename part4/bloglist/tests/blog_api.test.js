@@ -66,8 +66,9 @@ test('a blog without likes added will be default to 0', async() => {
   const blogsAtEnd = await helper.blogsInDb()
   expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
 
-  const newAddedBlog = blogsAtEnd.filter(blog => blog.likes === 0)
-  expect(newAddedBlog).toBeDefined()
+  const blogsWithZeroLikes = blogsAtEnd.filter(blog => blog.likes === 0)
+  const blog = blogsWithZeroLikes.filter(blog => blog.title === 'Full stack page')[0]
+  expect(blog.author).toEqual("make-up")
 })
 
 test('a blog without title and url send back a request status 400', async() => {
