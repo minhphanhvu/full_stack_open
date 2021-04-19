@@ -17,13 +17,11 @@ beforeEach(async () => {
 
 test('all blogs are returned', async () => {
   const response = await api.get('/api/blogs')
-
   expect(response.body).toHaveLength(helper.initialBlogs.length)
 })
 
 test('all blogs does have unique identifier named id', async () => {
   const response = await api.get('/api/blogs')
-
   response.body.forEach(blog => {
     expect(blog.id).toBeDefined()
   })
@@ -37,7 +35,8 @@ test('a blog is added to the blogs', async () => {
     likes: 10
   }
 
-  await api.post('/api/blogs')
+  await api
+    .post('/api/blogs')
     .send(newBlog)
     .expect(201)
     .expect('Content-Type', /application\/json/)
@@ -51,7 +50,7 @@ test('a blog is added to the blogs', async () => {
   )
 })
 
-test('a blog without likes added will be default to 0', async() => {
+test('a blog without likes added will be default to 0', async () => {
   const newBlog = {
     title: "Full stack page",
     author: "make-up",
@@ -71,15 +70,35 @@ test('a blog without likes added will be default to 0', async() => {
   expect(blog.author).toEqual("make-up")
 })
 
-test('a blog without title and url send back a request status 400', async() => {
+test('a blog without title and url send back a request status 400', async () => {
   const newBlog = {
     title: "Full stack page",
     likes: 10
   }
 
-  await api.post('/api/blogs')
+  await api
+    .post('/api/blogs')
     .send(newBlog)
     .expect(400)
+})
+
+describe('deletion of a blog', () => {
+  test('deletion of a blog is successful', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToDelete = blogsAtStart[0]
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(
+      helper.initialBlogs.length - 1
+    )
+
+    const titles = blogsAtEnd.map(blog => blog.title)
+    expect(titles).not.toContain(blogToDelete.title)
+  })
 })
 
 afterAll(() => {
