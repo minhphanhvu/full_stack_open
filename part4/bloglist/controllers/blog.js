@@ -8,27 +8,19 @@ blogsRouter.get('/', async (request, response) => {
 })
 
 blogsRouter.get('/:id', async (request, response, next) => {
-  try {
-    const blogId = request.params.id
-    const foundBlog = await Blog.findById(blogId)
-    if (foundBlog) {
-      response.json(foundBlog)
-    } else {
-      response.status(404).end()
-    }
-  } catch(error) {
-    next(error)
+  const blogId = request.params.id
+  const foundBlog = await Blog.findById(blogId)
+  if (foundBlog) {
+    response.json(foundBlog)
+  } else {
+    response.status(404).end()
   }
 })
 
 blogsRouter.post('/', async (request, response, next) => {
-  try {
-    const blog = new Blog(request.body)
-    const savedBlog = await blog.save()
-    response.status(201).json(savedBlog)
-  } catch(error) {
-    next(error)
-  }
+  const blog = new Blog(request.body)
+  const savedBlog = await blog.save()
+  response.status(201).json(savedBlog)
 })
 
 blogsRouter.put('/:id', (request, response, next) => {
@@ -43,18 +35,14 @@ blogsRouter.put('/:id', (request, response, next) => {
 })
 
 blogsRouter.delete('/:id', async (request, response, next) => {
-  // Enclosing in a try statement because findByIdAndDelete 
+  // Using async because findByIdAndDelete 
   // can get malformatted id error
-  try {
-    const blogId = request.params.id
-    const deletedBlog = await Blog.findByIdAndDelete(blogId)
-    if (deletedBlog) {
-      response.status(204).json(deletedBlog)
-    } else {
-      response.json({ error: 'id is not found' })
-    }
-  } catch(error) {
-    next(error)
+  const blogId = request.params.id
+  const deletedBlog = await Blog.findByIdAndDelete(blogId)
+  if (deletedBlog) {
+    response.status(204).json(deletedBlog)
+  } else {
+    response.json({ error: 'id is not found' })
   }
 })
 
