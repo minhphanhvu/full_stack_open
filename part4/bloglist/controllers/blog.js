@@ -7,6 +7,20 @@ blogsRouter.get('/', async (request, response) => {
   response.json(blogs)
 })
 
+blogsRouter.get('/:id', async (request, response, next) => {
+  try {
+    const blogId = request.params.id
+    const foundBlog = await Blog.findById(blogId)
+    if (foundBlog) {
+      response.json(foundBlog)
+    } else {
+      response.status(404).end()
+    }
+  } catch(error) {
+    next(error)
+  }
+})
+
 blogsRouter.post('/', async (request, response, next) => {
   try {
     const blog = new Blog(request.body)
@@ -18,14 +32,19 @@ blogsRouter.post('/', async (request, response, next) => {
 })
 
 blogsRouter.delete('/:id', async (request, response, next) => {
-  const blogId = request.params.id
-  const deletedBlog = await Blog.findByIdAndDelete(blogId)
-  if (deletedBlog) {
-    response.json(deletedBlog)
-  } else {
-    response.json({ error: 'id is not found' })
+  // Enclosing in a try statement because findByIdAndDelete 
+  // can get malformatted id error
+  try {
+    const blogId = request.params.id
+    const deletedBlog = await Blog.findByIdAndDelete(blogId)
+    if (deletedBlog) {
+      response.status(204).json(deletedBlog)
+    } else {
+      response.json({ error: 'id is not found' })
+    }
+  } catch(error) {
+    next(error)
   }
-  response.status(204).end()
 })
 
 module.exports = blogsRouter
