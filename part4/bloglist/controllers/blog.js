@@ -31,6 +31,10 @@ blogsRouter.post('/', async (request, response, next) => {
   }
 })
 
+blogsRouter.put('/', async(request, response, next) => {
+
+})
+
 blogsRouter.delete('/:id', async (request, response, next) => {
   // Enclosing in a try statement because findByIdAndDelete 
   // can get malformatted id error
