@@ -22,13 +22,8 @@ blogsRouter.get('/:id', async (request, response) => {
 
 blogsRouter.post('/', async (request, response) => {
   const body = request.body
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
 
-  if (!request.token || !decodedToken.id) {
-    return response.status(401).json({ error: 'token missing or invalid' })
-  }
-
-  const user = await User.findById(decodedToken.id)
+  const user = request.user
   const blog = new Blog({
     title: body.title,
     author: body.author,
@@ -56,19 +51,14 @@ blogsRouter.put('/:id', (request, response) => {
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-
-  if (!request.token || !decodedToken.id) {
-    return response.status(401).json({ error: 'token missing or invalid' })
-  }
+  const user = request.user
 
   // Using async because findById 
   // can get malformatted id error
   const blogId = request.params.id
-  const userId = decodedToken.id
   const blog = await Blog.findById(blogId)
 
-  if (blog.user.toString() === userId.toString()) {
+  if (blog.user.toString() === user._id.toString()) {
     await blog.remove()
     return response.json({
       success: 'successfully delete blog'
