@@ -30,6 +30,56 @@ describe('get all users succesfully', () => {
   })
 })
 
+describe('create a new user', () => {
+  test('unsuccessfully, new user with invalid password returns status 400', async () => {
+    const newUser = {
+      username: 'Invalid User',
+      name: 'Invalid Person',
+      password: 'Pa'
+    }
+
+    const response = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+    
+    expect(response.body).toEqual({ error: 'Password must be at least 3 characters longs' })
+  })
+
+  test('unsuccessfully, new user violates unqiue username constraint, but with valid password', async () => {
+    const newUser = {
+      username: "Minh Vu",
+      name: "Minh",
+      password: "Pass1234"
+    }
+
+    const response = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+
+    expect(response.body).toEqual({ error: "User validation failed: username: Error, expected `username` to be unique. Value: `Minh Vu`" })
+  })
+
+  test('successfully create a new user', async () => {
+    const newUser = {
+      username: "New User",
+      name: "User",
+      password: "Pass1234"
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(201)
+
+    const users = await helper.usersInDb()
+    const savedUser = users.find(user => user.username === "New User")
+
+    expect(savedUser).toBeDefined()
+  })
+})
+
 afterAll(async () => {
   mongoose.connection.close()
 })
