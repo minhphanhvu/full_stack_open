@@ -127,6 +127,14 @@ describe('POST method add a blog to the db', () => {
   })
   
   test('a blog without likes added will be default to 0', async () => {
+    const res = await api
+      .post('/api/login')
+      .send({
+        username: "test",
+        password: "password"
+      })
+    const token = res.body.token
+
     const newBlog = {
       title: "Full stack page",
       author: "make-up",
@@ -134,6 +142,7 @@ describe('POST method add a blog to the db', () => {
     }
   
     await api.post('/api/blogs')
+      .set('Authorization', `bearer ${token}`)
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
@@ -147,6 +156,14 @@ describe('POST method add a blog to the db', () => {
   })
   
   test('a blog without title and url send back a request status 400', async () => {
+    const res = await api
+      .post('/api/login')
+      .send({
+        username: "test",
+        password: "password"
+      })
+    const token = res.body.token
+
     const newBlog = {
       title: "Full stack page",
       likes: 10
@@ -154,6 +171,7 @@ describe('POST method add a blog to the db', () => {
   
     await api
       .post('/api/blogs')
+      .set('Authorization', `bearer ${token}`)
       .send(newBlog)
       .expect(400)
   })
@@ -161,16 +179,37 @@ describe('POST method add a blog to the db', () => {
 
 describe('deletion of a blog', () => {
   test('deletion of a blog is successful', async () => {
+    const res = await api
+      .post('/api/login')
+      .send({
+        username: "test",
+        password: "password"
+      })
+    const token = res.body.token
+    const newBlog = {
+      author: 'test',
+      title: "Blog to delete",
+      url: 'Example.com',
+      likes: 10
+    }
+  
+    await api.post('/api/blogs')
+      .set('Authorization', `bearer ${token}`)
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+    
     const blogsAtStart = await helper.blogsInDb()
-    const blogToDelete = blogsAtStart[0]
+    const blogToDelete = blogsAtStart.find(blog => blog.title === 'Blog to delete')
 
     await api
       .delete(`/api/blogs/${blogToDelete.id}`)
+      .set('Authorization', `bearer ${token}`)
       .expect(204)
 
     const blogsAtEnd = await helper.blogsInDb()
     expect(blogsAtEnd).toHaveLength(
-      helper.initialBlogs.length - 1
+      helper.initialBlogs.length
     )
 
     const titles = blogsAtEnd.map(blog => blog.title)

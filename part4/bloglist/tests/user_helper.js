@@ -7,9 +7,9 @@ const initialUsers = [
     password: "password"
   },
   {
-    username: "Alice",
+    username: "test 2",
     name: "Alice Wonderland",
-    password: "Pass1234"
+    password: "password"
   },
   {
     username: "Robbert",

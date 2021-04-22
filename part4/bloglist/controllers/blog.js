@@ -59,7 +59,7 @@ blogsRouter.delete('/:id', middleware.userExtractor, async (request, response) =
 
   if (blog.user.toString() === user._id.toString()) {
     await blog.remove()
-    return response.json({
+    return response.status(204).json({
       success: 'successfully delete blog'
     })    
   } else {
