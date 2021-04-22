@@ -9,7 +9,7 @@ loginRouter.post('/', async (request, response) => {
   const user = await User.findOne({ username: body.username })
   const passwordCorrect = user === null
     ? false
-    : bcrypt.compare(body.password, user.password)
+    : await bcrypt.compare(body.password, user.password)
 
   if (!(user && passwordCorrect)) {
     return response.status(401).json({
@@ -28,7 +28,7 @@ loginRouter.post('/', async (request, response) => {
     { expiresIn: 60*60 }
   )
 
-  response
+  return response
     .status(200)
     .send({ token, username: user.username, name: user.name })
 })

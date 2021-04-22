@@ -2,9 +2,9 @@ const User = require('../models/user')
 
 const initialUsers = [
   {
-    username: "Minh Vu",
-    name: "Finn",
-    password: "Pass1234"
+    username: "test",
+    name: "test",
+    password: "password"
   },
   {
     username: "Alice",

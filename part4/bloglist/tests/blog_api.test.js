@@ -2,7 +2,9 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const helper = require('./blog_helper')
+const user_helper = require('./user_helper')
 
 const api = supertest(app)
 
@@ -12,6 +14,14 @@ beforeEach(async () => {
   for (let blog of helper.initialBlogs) {
     let blogObject = new Blog(blog)
     await blogObject.save()
+  }
+
+  await User.deleteMany({})
+
+  for (let user of user_helper.initialUsers) {
+    await api
+      .post('/api/users')
+      .send(user)
   }
 })
 
@@ -59,8 +69,40 @@ describe('get a certain blog', () => {
   })
 })
 
+describe('login tests', () => {
+  test('login successfully', async () => {
+    await api
+      .post('/api/login')
+      .send({
+        username: "test",
+        password: "password"
+      })
+      .expect(200)
+  })
+  
+  test('login unsuccessfully', async () => {
+    const response = await api
+      .post('/api/login')
+      .send({
+        username: "test",
+        password: "WrongPassword"
+      })
+      .expect(401)
+    
+    expect(response.body.error).toBeDefined()
+  })
+})
+
 describe('POST method add a blog to the db', () => {
   test('a blog is added to the blogs', async () => {
+    const res = await api
+      .post('/api/login')
+      .send({
+        username: "test",
+        password: "password"
+      })
+    const token = res.body.token
+
     const newBlog = {
       title: "Full stack page",
       author: "make-up",
@@ -70,6 +112,7 @@ describe('POST method add a blog to the db', () => {
   
     await api
       .post('/api/blogs')
+      .set('Authorization', `bearer ${token}`)
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
