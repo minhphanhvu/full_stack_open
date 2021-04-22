@@ -95,13 +95,7 @@ describe('login tests', () => {
 
 describe('POST method add a blog to the db', () => {
   test('a blog is added to the blogs', async () => {
-    const res = await api
-      .post('/api/login')
-      .send({
-        username: "test",
-        password: "password"
-      })
-    const token = res.body.token
+    const token = await user_helper.generateFirstUserToken()
 
     const newBlog = {
       title: "Full stack page",
@@ -127,13 +121,7 @@ describe('POST method add a blog to the db', () => {
   })
   
   test('a blog without likes added will be default to 0', async () => {
-    const res = await api
-      .post('/api/login')
-      .send({
-        username: "test",
-        password: "password"
-      })
-    const token = res.body.token
+    const token = await user_helper.generateFirstUserToken()
 
     const newBlog = {
       title: "Full stack page",
@@ -156,13 +144,7 @@ describe('POST method add a blog to the db', () => {
   })
   
   test('a blog without title and url send back a request status 400', async () => {
-    const res = await api
-      .post('/api/login')
-      .send({
-        username: "test",
-        password: "password"
-      })
-    const token = res.body.token
+    const token = await user_helper.generateFirstUserToken()
 
     const newBlog = {
       title: "Full stack page",
@@ -179,13 +161,8 @@ describe('POST method add a blog to the db', () => {
 
 describe('deletion of a blog', () => {
   test('deletion of a blog is successful', async () => {
-    const res = await api
-      .post('/api/login')
-      .send({
-        username: "test",
-        password: "password"
-      })
-    const token = res.body.token
+    const token = await user_helper.generateFirstUserToken()
+
     const newBlog = {
       author: 'test',
       title: "Blog to delete",
@@ -214,6 +191,15 @@ describe('deletion of a blog', () => {
 
     const titles = blogsAtEnd.map(blog => blog.title)
     expect(titles).not.toContain(blogToDelete.title)
+  })
+
+  test('deletion unsuccesfully when not logged in', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToDelete = blogsAtStart[0]
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(401)
   })
 })
 
