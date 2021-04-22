@@ -6,13 +6,12 @@
 #   "password": "Password1234"
 # }
 
-
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFsaWNlIiwiaWQiOiI2MDgxNTkzZTkyNTdhNDAxOGVlMWU5NTYiLCJpYXQiOjE2MTkwOTM3MjB9.l764768FGU6wExak9TI9Ypvut8jJL2CBYeO7e05o5yY
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFsaWNlIiwiaWQiOiI2MDgxNTkzZTkyNTdhNDAxOGVlMWU5NTYiLCJpYXQiOjE2MTkwOTYzNzB9.rYZ_OhwZ3R3ITVzHpGlcKmd9p_GBTu4mx4RWVWj9kjM
 
 {
-  "title": "Example 2",
+  "title": "Example 3",
   "author": "Finn",
   "url": "example.com",
   "likes": 12,

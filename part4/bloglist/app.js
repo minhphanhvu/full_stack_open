@@ -30,6 +30,9 @@ app.use(express.json())
 // Using middleware requestLogger
 app.use(middleware.requestLogger)
 
+// Using getTokenExtractor
+app.use(middleware.tokenExtractor)
+
 // Using blog router
 app.use('/api/blogs', blogsRouter)
 // Using user router
