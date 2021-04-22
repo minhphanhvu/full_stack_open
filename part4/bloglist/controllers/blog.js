@@ -9,7 +9,7 @@ blogsRouter.get('/', async (request, response) => {
   response.json(blogs)
 })
 
-blogsRouter.get('/:id', async (request, response, next) => {
+blogsRouter.get('/:id', async (request, response) => {
   const blogId = request.params.id
   const foundBlog = await Blog.findById(blogId)
   if (foundBlog) {
@@ -19,7 +19,7 @@ blogsRouter.get('/:id', async (request, response, next) => {
   }
 })
 
-blogsRouter.post('/', async (request, response, next) => {
+blogsRouter.post('/', async (request, response) => {
   const body = request.body
 
   const user = await User.findById(body.userId)
@@ -28,17 +28,17 @@ blogsRouter.post('/', async (request, response, next) => {
     author: body.author,
     url: body.url,
     likes: body.likes,
-    user: user.id
+    user: user._id
   })
 
   const savedBlog = await blog.save()
-  user.blogs = user.blogs.concat(savedBlog.id)
+  user.blogs = user.blogs.concat(savedBlog._id)
   await user.save()
 
   response.status(201).json(savedBlog)
 })
 
-blogsRouter.put('/:id', (request, response, next) => {
+blogsRouter.put('/:id', (request, response) => {
   const blogId = request.params.id
   const likes = request.body.likes
 
@@ -49,7 +49,7 @@ blogsRouter.put('/:id', (request, response, next) => {
     .catch(error => next(error))
 })
 
-blogsRouter.delete('/:id', async (request, response, next) => {
+blogsRouter.delete('/:id', async (request, response) => {
   // Using async because findByIdAndDelete 
   // can get malformatted id error
   const blogId = request.params.id
