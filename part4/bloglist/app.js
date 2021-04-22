@@ -5,6 +5,7 @@ const config = require('./utils/config')
 const logger = require('./utils/logger')
 const middleware = require('./utils/middleware')
 const blogsRouter = require('./controllers/blog')
+const usersRouter = require('./controllers/user')
 const cors = require('cors')
 
 // Mongoose and database connection
@@ -28,8 +29,10 @@ app.use(express.json())
 // Using middleware requestLogger
 app.use(middleware.requestLogger)
 
-// Using router
+// Using blog router
 app.use('/api/blogs', blogsRouter)
+// Using user router
+app.use('/api/users', usersRouter)
 
 // Using middleware
 app.use(middleware.unknownEndpoint)
