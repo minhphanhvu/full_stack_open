@@ -10,6 +10,11 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState([])
 
+  // states for creating new blog
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
+
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
@@ -33,6 +38,8 @@ const App = () => {
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
       )
+
+      blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
@@ -78,6 +85,61 @@ const App = () => {
     </form>
   )
 
+  // Creating new blog
+  const handleCreateNewBlog = (event) => {
+    event.preventDefault()
+    const newBlog = {
+      title,
+      author,
+      url
+    }
+
+    blogService
+      .create(newBlog)
+      .then(returnedBlog => {
+        setBlogs(blogs.concat(returnedBlog))
+      })
+    setTitle('')
+    setAuthor('')
+    setUrl('')
+  }
+
+  const createNewBlog = () => (
+    <>
+      <h2>create new</h2>
+      <form onSubmit={handleCreateNewBlog}>
+        <div>
+          title:
+            <input
+            type="text" 
+            value={title}
+            name="title"
+            onChange={({ target }) => setTitle(target.value)}
+            />
+        </div>
+        <div>
+          author:
+            <input
+            type="text" 
+            value={author}
+            name="author"
+            onChange={({ target }) => setAuthor(target.value)}
+            />
+        </div>
+        <div>
+          url:
+            <input
+            type="text" 
+            value={url}
+            name="url"
+            onChange={({ target }) => setUrl(target.value)}
+            />
+        </div>
+      <button type="submit">create</button>
+      </form>
+    </>
+  )
+
   return (
     <div>
       <h2>blogs</h2>
@@ -89,6 +151,7 @@ const App = () => {
           {logout()}
         </div>
       }
+      {user !== null && createNewBlog()}
       {user !== null && blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
