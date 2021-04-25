@@ -15,13 +15,17 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
 
   // States for creating new blog
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  const [newBlog, setNewBlog] = useState({
+    title: '',
+    author: '',
+    url: ''
+  })
 
   // States for messages
   const [message, setMessage] = useState(null)
   const [messageType, setMessageType] = useState('')
+
+  // useEffect
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -37,6 +41,8 @@ const App = () => {
       blogService.setToken(loggedUser.token)
     }
   }, [])
+
+  // Handle Login
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -73,13 +79,21 @@ const App = () => {
   )
 
   // Creating new blog
+  const handleNewBlog = (event) => {
+    event.preventDefault()
+    const updatedNewBlog = {
+      title: newBlog.title,
+      author: newBlog.author,
+      url: newBlog.url
+    }
+    const field = event.target.name
+    const value = event.target.value
+    updatedNewBlog[field] = value
+    setNewBlog(updatedNewBlog)
+  }
+
   const handleCreateNewBlog = (event) => {
     event.preventDefault()
-    const newBlog = {
-      title,
-      author,
-      url
-    }
 
     blogService
       .create(newBlog)
@@ -92,9 +106,11 @@ const App = () => {
           setMessageType('')
         }, 6000)
       })
-    setTitle('')
-    setAuthor('')
-    setUrl('')
+    setNewBlog({
+      title: '',
+      author: '',
+      url: ''
+    })
   }
 
   return (
@@ -113,8 +129,8 @@ const App = () => {
       }
       { user !== null && 
         <BlogForm 
-          title={title} author={author} url={url}
-          setTitle={setTitle} setAuthor={setAuthor} setUrl={setUrl}
+          title={newBlog.title} author={newBlog.author} url={newBlog.url}
+          handleNewBlog={handleNewBlog}
           handleCreateNewBlog={handleCreateNewBlog}
         />
       }
