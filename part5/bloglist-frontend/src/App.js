@@ -6,14 +6,17 @@ import loginService from './services/login'
 const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [errorMessage, setErrorMessage] = useState(null)
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState([])
 
-  // states for creating new blog
+  // States for creating new blog
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+
+  // States for messages
+  const [message, setMessage] = useState(null)
+  const [messageType, setMessageType] = useState('')
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -44,9 +47,10 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch(exception) {
-      setErrorMessage('wrong credentials')
+      setMessageType('error')
+      setMessage('wrong credentials')
       setTimeout(() => {
-        setErrorMessage(null)
+        setMessage(null)
       }, 5000)
     }
   }
@@ -97,7 +101,13 @@ const App = () => {
     blogService
       .create(newBlog)
       .then(returnedBlog => {
+        setMessage(`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`)
+        setMessageType('success')
         setBlogs(blogs.concat(returnedBlog))
+        setTimeout(() => {
+          setMessage(null)
+          setMessageType('')
+        }, 6000)
       })
     setTitle('')
     setAuthor('')
@@ -140,10 +150,18 @@ const App = () => {
     </>
   )
 
+  const displayMessage = () => (
+    <>
+      <div className={messageType}>
+        {message}
+      </div>
+    </>
+  )
+
   return (
     <div>
       <h2>blogs</h2>
-      {errorMessage}
+      {message && displayMessage()}
       {user === null ? 
         loginForm() :
         <div>
