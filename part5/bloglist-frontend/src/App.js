@@ -9,6 +9,8 @@ import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 
 const App = () => {
+  const [newBlogVisible, setNewBlogVisible] = useState(true)
+
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -26,7 +28,6 @@ const App = () => {
   const [messageType, setMessageType] = useState('')
 
   // useEffect
-
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
@@ -43,7 +44,6 @@ const App = () => {
   }, [])
 
   // Handle Login
-
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
@@ -94,7 +94,6 @@ const App = () => {
 
   const handleCreateNewBlog = (event) => {
     event.preventDefault()
-
     blogService
       .create(newBlog)
       .then(returnedBlog => {
@@ -115,7 +114,7 @@ const App = () => {
 
   return (
     <div>
-      <h2>blogs</h2>
+      <h2>Blogs</h2>
       { message &&  <Message message={message} messageType={messageType} /> }
       { user === null ? 
         <LoginForm 
