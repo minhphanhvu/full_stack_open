@@ -7,9 +7,9 @@ import Message from './components/Message'
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
+import Togglable from './components/Togglable'
 
 const App = () => {
-  const [newBlogVisible, setNewBlogVisible] = useState(true)
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -126,12 +126,14 @@ const App = () => {
           {logout()}
         </div>
       }
-      { user !== null && 
-        <BlogForm 
-          title={newBlog.title} author={newBlog.author} url={newBlog.url}
-          handleNewBlog={handleNewBlog}
-          handleCreateNewBlog={handleCreateNewBlog}
-        />
+      { user !== null &&
+        <Togglable buttonLabel="create new blog">
+          <BlogForm 
+            title={newBlog.title} author={newBlog.author} url={newBlog.url}
+            handleNewBlog={handleNewBlog}
+            handleCreateNewBlog={handleCreateNewBlog}
+          />
+        </Togglable>
       }
       { user !== null && blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
