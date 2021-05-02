@@ -71,7 +71,7 @@ const Blog = ({ blog, blogs, setBlogs, updateLikes, destroy, setMessage, setMess
           likes {blog.likes}
           <button style={{ 'marginLeft': 2 }} onClick={handleLikeClick}>like</button>
         </div>
-        <div> 
+        <div>
           {blog.author}
         </div>
         <div>

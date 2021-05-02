@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Message = ({message, messageType}) => {
+const Message = ({ message, messageType }) => {
   return (
     <>
       <div className={messageType}>
