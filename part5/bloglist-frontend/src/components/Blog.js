@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Blog = ({blog, blogs, setBlogs, updateLikes}) => {
+const Blog = ({blog, blogs, setBlogs, updateLikes, destroy, setMessage, setMessageType}) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -22,9 +22,32 @@ const Blog = ({blog, blogs, setBlogs, updateLikes}) => {
   const handleLikeClick = (event) => {
     event.preventDefault()
     const updateBlog = { ...blog, likes: blog.likes + 1 }
-    updateLikes(blog.id, updateBlog).then(returnedBlog => {
+    updateLikes(blog.id, updateBlog).then(() => {
       setBlogs(blogs.map(b => b.id !== blog.id ? b : updateBlog).sort((a, b) => b.likes - a.likes))
     })
+  }
+
+  // Delete a blo
+  const handleDelete = (event) => {
+    event.preventDefault()
+    const confirmation = window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)
+    if (confirmation) {
+      destroy(blog.id)
+        .then(response => {
+          if (response.status === 204) {
+            setMessageType('success')
+            setMessage('Delete Success')
+            setBlogs(blogs.filter(b => b.id !== blog.id).sort((a, b) => b.likes - a.likes))
+          }
+          else {
+            setMessageType('error')
+            setMessage('Unauthorized action')
+          }
+        })
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
+    }
   }
 
   return (
@@ -50,6 +73,9 @@ const Blog = ({blog, blogs, setBlogs, updateLikes}) => {
         </div>
         <div> 
           {blog.author}
+        </div>
+        <div>
+          <button style={{ "marginLeft": 3 }} onClick={handleDelete}>remove</button>
         </div>
       </div>
     </div>
