@@ -51,7 +51,7 @@ const Blog = ({ blog, blogs, setBlogs, updateLikes, destroy, setMessage, setMess
   }
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className='blog'>
       <div>
         <span style={{ 'marginRight': 3 }}>
           {blog.title}
@@ -63,7 +63,7 @@ const Blog = ({ blog, blogs, setBlogs, updateLikes, destroy, setMessage, setMess
           <button onClick={toggleBlogVisibility}>hide</button>
         </span>
       </div>
-      <div style={viewBlog}>
+      <div style={viewBlog} className='togglableBlogDetails'>
         <div>
           {blog.url}
         </div>
