@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Blog = ({blog, blogs, setBlogs, updateLikes, destroy, setMessage, setMessageType}) => {
+const Blog = ({ blog, blogs, setBlogs, updateLikes, destroy, setMessage, setMessageType }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -10,7 +10,7 @@ const Blog = ({blog, blogs, setBlogs, updateLikes, destroy, setMessage, setMessa
   }
   const [blogVisible, setBlogVisible] = useState(false)
 
-  const hideBlog = { display: blogVisible ? 'none' : ''}
+  const hideBlog = { display: blogVisible ? 'none' : '' }
   const viewBlog = { display: blogVisible ? '' : 'none' }
 
   const toggleBlogVisibility = (event) => {
@@ -44,17 +44,17 @@ const Blog = ({blog, blogs, setBlogs, updateLikes, destroy, setMessage, setMessa
             setMessage('Unauthorized action')
           }
         })
-        setTimeout(() => {
-          setMessage(null)
-        }, 5000)
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
     }
   }
 
   return (
     <div style={blogStyle}>
       <div>
-        <span style={{ "marginRight": 3 }}>
-          {blog.title} 
+        <span style={{ 'marginRight': 3 }}>
+          {blog.title}
         </span>
         <span style={hideBlog}>
           <button onClick={toggleBlogVisibility}>view</button>
@@ -64,18 +64,18 @@ const Blog = ({blog, blogs, setBlogs, updateLikes, destroy, setMessage, setMessa
         </span>
       </div>
       <div style={viewBlog}>
-        <div> 
+        <div>
           {blog.url}
         </div>
-        <div> 
+        <div>
           likes {blog.likes}
-          <button style={{ "marginLeft": 2 }} onClick={handleLikeClick}>like</button>
+          <button style={{ 'marginLeft': 2 }} onClick={handleLikeClick}>like</button>
         </div>
         <div> 
           {blog.author}
         </div>
         <div>
-          <button style={{ "marginLeft": 3 }} onClick={handleDelete}>remove</button>
+          <button style={{ 'marginLeft': 3 }} onClick={handleDelete}>remove</button>
         </div>
       </div>
     </div>

@@ -34,7 +34,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs(blogs.sort((a, b) => b.likes - a.likes))
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -120,10 +120,10 @@ const App = () => {
     <div>
       <h2>Blogs</h2>
       { message &&  <Message message={message} messageType={messageType} /> }
-      { user === null ? 
-        <LoginForm 
+      { user === null ?
+        <LoginForm
           username={username} password={password} handleLogin={handleLogin}
-          setUsername={setUsername} setPassword={setPassword} 
+          setUsername={setUsername} setPassword={setPassword}
         /> :
         <div>
           <p>{user.name} logged-in</p>
@@ -132,7 +132,7 @@ const App = () => {
       }
       { user !== null &&
         <Togglable buttonLabel="create new blog" ref={blogFormRef}>
-          <BlogForm 
+          <BlogForm
             title={newBlog.title} author={newBlog.author} url={newBlog.url}
             handleNewBlog={handleNewBlog}
             handleCreateNewBlog={handleCreateNewBlog}
@@ -140,9 +140,9 @@ const App = () => {
         </Togglable>
       }
       { user !== null && blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} blogs={blogs} 
-              setBlogs={setBlogs} updateLikes={blogService.updateLikes} destroy={blogService.destroy}
-              setMessage={setMessage} setMessageType={setMessageType}
+        <Blog key={blog.id} blog={blog} blogs={blogs}
+          setBlogs={setBlogs} updateLikes={blogService.updateLikes} destroy={blogService.destroy}
+          setMessage={setMessage} setMessageType={setMessageType}
         />
       )}
     </div>
