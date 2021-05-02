@@ -7,6 +7,11 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 
+const updateLikes = async (blogId, blogToUpdate) => {
+  const response = await axios.put(baseUrl + `/${blogId}`, blogToUpdate)
+  return response.data
+}
+
 const setToken = newToken => {
   token = `bearer ${newToken}`
 }
@@ -20,4 +25,4 @@ const create = async (newBlog) => {
   return response.data
 }
 
-export default { getAll, setToken, create }
+export default { getAll, setToken, create, updateLikes }

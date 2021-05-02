@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Blog = ({blog}) => {
+const Blog = ({blog, blogs, setBlogs, updateLikes}) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -18,10 +18,19 @@ const Blog = ({blog}) => {
     setBlogVisible(!blogVisible)
   }
 
+  // Handle like events
+  const handleLikeClick = (event) => {
+    event.preventDefault()
+    const updateBlog = { ...blog, likes: blog.likes + 1 }
+    updateLikes(blog.id, updateBlog).then(returnedBlog => {
+      setBlogs(blogs.map(b => b.id !== blog.id ? b : updateBlog).sort((a, b) => b.likes - a.likes))
+    })
+  }
+
   return (
     <div style={blogStyle}>
       <div>
-        <span style={{ "margin-right": 3 }}>
+        <span style={{ "marginRight": 3 }}>
           {blog.title} 
         </span>
         <span style={hideBlog}>
@@ -34,7 +43,7 @@ const Blog = ({blog}) => {
         </div>
         <div> 
           likes {blog.likes}
-          <button style={{ "margin-left": 2 }}>like</button>
+          <button style={{ "marginLeft": 2 }} onClick={handleLikeClick}>like</button>
         </div>
         <div> 
           {blog.author}
