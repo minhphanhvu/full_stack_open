@@ -1,7 +1,9 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { render } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
+import { prettyDOM } from '@testing-library/dom'
 import Blog from './Blog'
+import { checkPropTypes } from 'prop-types'
 
 describe('<Blog />', () => {
   let component
@@ -50,5 +52,12 @@ describe('<Blog />', () => {
   test('url and likes are not rendered by default', () => {
     const div = component.container.querySelector('.togglableBlogDetails')
     expect(div).toHaveStyle('display: none')
+  })
+
+  test('url and likes show when the button view is clicked', () => {
+    const button = component.getByText('view')
+    fireEvent.click(button)
+    const div = component.container.querySelector('.togglableBlogDetails')
+    expect(div).toHaveStyle('display: block')
   })
 })
