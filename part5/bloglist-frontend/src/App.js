@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -22,6 +22,9 @@ const App = () => {
     author: '',
     url: ''
   })
+
+  // Using useRef to close the form for a new blog created
+  const blogFormRef = useRef()
 
   // States for messages
   const [message, setMessage] = useState(null)
@@ -94,6 +97,7 @@ const App = () => {
 
   const handleCreateNewBlog = (event) => {
     event.preventDefault()
+    blogFormRef.current.toggleVisibility()
     blogService
       .create(newBlog)
       .then(returnedBlog => {
@@ -127,7 +131,7 @@ const App = () => {
         </div>
       }
       { user !== null &&
-        <Togglable buttonLabel="create new blog">
+        <Togglable buttonLabel="create new blog" ref={blogFormRef}>
           <BlogForm 
             title={newBlog.title} author={newBlog.author} url={newBlog.url}
             handleNewBlog={handleNewBlog}
