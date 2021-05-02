@@ -36,6 +36,9 @@ const Blog = ({blog, blogs, setBlogs, updateLikes}) => {
         <span style={hideBlog}>
           <button onClick={toggleBlogVisibility}>view</button>
         </span>
+        <span style={viewBlog}>
+          <button onClick={toggleBlogVisibility}>hide</button>
+        </span>
       </div>
       <div style={viewBlog}>
         <div> 
@@ -48,7 +51,6 @@ const Blog = ({blog, blogs, setBlogs, updateLikes}) => {
         <div> 
           {blog.author}
         </div>
-        <button onClick={toggleBlogVisibility}>hide</button>
       </div>
     </div>
   )
