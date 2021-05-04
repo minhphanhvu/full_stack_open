@@ -16,13 +16,6 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState([])
 
-  // States for creating new blog
-  const [newBlog, setNewBlog] = useState({
-    title: '',
-    author: '',
-    url: ''
-  })
-
   // Using useRef to close the form for a new blog created
   const blogFormRef = useRef()
 
@@ -81,25 +74,9 @@ const App = () => {
     </form>
   )
 
-  // Creating new blog
-  const handleNewBlog = (event) => {
-    event.preventDefault()
-    const updatedNewBlog = {
-      title: newBlog.title,
-      author: newBlog.author,
-      url: newBlog.url
-    }
-    const field = event.target.name
-    const value = event.target.value
-    updatedNewBlog[field] = value
-    setNewBlog(updatedNewBlog)
-  }
-
-  const handleCreateNewBlog = (event) => {
-    event.preventDefault()
+  const handleCreateNewBlog = (newBlog) => {
     blogFormRef.current.toggleVisibility()
-    blogService
-      .create(newBlog)
+    blogService.createBlog(newBlog)
       .then(returnedBlog => {
         setMessage(`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`)
         setMessageType('success')
@@ -109,11 +86,6 @@ const App = () => {
           setMessageType('')
         }, 6000)
       })
-    setNewBlog({
-      title: '',
-      author: '',
-      url: ''
-    })
   }
 
   return (
@@ -133,8 +105,6 @@ const App = () => {
       { user !== null &&
         <Togglable buttonLabel="create new blog" ref={blogFormRef}>
           <BlogForm
-            title={newBlog.title} author={newBlog.author} url={newBlog.url}
-            handleNewBlog={handleNewBlog}
             handleCreateNewBlog={handleCreateNewBlog}
           />
         </Togglable>

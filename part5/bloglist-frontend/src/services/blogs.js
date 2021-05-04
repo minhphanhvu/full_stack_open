@@ -16,7 +16,7 @@ const setToken = newToken => {
   token = `bearer ${newToken}`
 }
 
-const create = async (newBlog) => {
+const createBlog = async (newBlog) => {
   const config = {
     headers: { Authorization: token },
   }
@@ -34,4 +34,4 @@ const destroy = async (blogId) => {
   return response
 }
 
-export default { getAll, setToken, create, updateLikes, destroy }
+export default { getAll, setToken, createBlog, updateLikes, destroy }

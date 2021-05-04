@@ -3,7 +3,6 @@ import '@testing-library/jest-dom/extend-expect'
 import { render, fireEvent } from '@testing-library/react'
 import { prettyDOM } from '@testing-library/dom'
 import Blog from './Blog'
-import { checkPropTypes } from 'prop-types'
 
 describe('<Blog />', () => {
   let component
@@ -15,27 +14,6 @@ describe('<Blog />', () => {
       likes: 10,
       url: "example.com"
     }
-
-    const blogs = [
-      {
-        title: "Title 1",
-        author: "Example Author",
-        likes: 10,
-        url: "example.com"
-      },
-      {
-        title: "Title 1",
-        author: "Example Author",
-        likes: 10,
-        url: "example.com"
-      },
-      {
-        title: "Title 1",
-        author: "Example Author",
-        likes: 10,
-        url: "example.com"
-      },      
-    ]
 
     component = render(
       <Blog blog={blog} />
