@@ -48,8 +48,8 @@ describe('create a new user', () => {
 
   test('unsuccessfully, new user violates unqiue username constraint, but with valid password', async () => {
     const newUser = {
-      username: "Minh Vu",
-      name: "Minh",
+      username: "test",
+      name: "test",
       password: "Pass1234"
     }
 
@@ -58,7 +58,7 @@ describe('create a new user', () => {
       .send(newUser)
       .expect(400)
 
-    expect(response.body).toEqual({ error: "User validation failed: username: Error, expected `username` to be unique. Value: `Minh Vu`" })
+    expect(response.body).toEqual({ error: "User validation failed: username: Error, expected `username` to be unique. Value: `test`" })
   })
 
   test('successfully create a new user', async () => {
