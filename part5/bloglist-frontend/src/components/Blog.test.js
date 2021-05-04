@@ -1,7 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render, fireEvent } from '@testing-library/react'
-import { prettyDOM } from '@testing-library/dom'
 import Blog from './Blog'
 
 describe('<Blog />', () => {
@@ -9,10 +8,10 @@ describe('<Blog />', () => {
 
   beforeEach(() => {
     const blog = {
-      title: "Title 1",
-      author: "Example Author",
+      title: 'Title 1',
+      author: 'Example Author',
       likes: 10,
-      url: "example.com"
+      url: 'example.com'
     }
 
     component = render(
