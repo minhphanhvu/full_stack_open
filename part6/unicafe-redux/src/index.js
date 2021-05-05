@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom'
 import { createStore } from 'redux'
 import reducer from './reducer'
+import Statistics from './components/Statistics'
+import Button from './components/Button'
 
 const store = createStore(reducer)
 
@@ -24,7 +26,7 @@ const App = () => {
     })
   }
 
-  const reset =() => {
+  const reset = () => {
     store.dispatch({
       type: 'ZERO'
     })
@@ -32,13 +34,9 @@ const App = () => {
 
   return (
     <div>
-      <button onClick={good}>good</button> 
-      <button onClick={ok}>neutral</button> 
-      <button onClick={bad}>bad</button>
-      <button onClick={reset}>reset stats</button>
-      <div>good {store.getState().good}</div>
-      <div>neutral {store.getState().ok}</div>
-      <div>bad {store.getState().bad}</div>
+      <h2>Give feedback</h2>
+      <Button good={good} ok={ok} bad={bad} reset={reset} />
+      <Statistics store={store} />
     </div>
   )
 }
