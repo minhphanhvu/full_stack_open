@@ -28,14 +28,27 @@ export const increVote = (id) => {
   }
 }
 
-const reducer = (state = initialState, action) => {
-  if (action.type === 'INCREASE_VOTE') {
-    const anecdote = state.find(anec => anec.id === action.data.id)
-    console.log(anecdote)
-    anecdote.votes += 1
+export const createAnecdote = (anecdote) => {
+  const newAnecdote = asObject(anecdote)
+  return {
+    type: 'NEW_ANECDOTE',
+    data: {
+      newAnecdote: newAnecdote
+    }
   }
+}
 
-  return [...state]
+const reducer = (state = initialState, action) => {
+  switch(action.type) {
+    case 'INCREASE_VOTE':
+      const anecdote = state.find(anec => anec.id === action.data.id)
+      anecdote.votes += 1
+      return [...state]
+    case 'NEW_ANECDOTE':
+      return [...state, action.data.newAnecdote]
+    default:
+      return state
+  }
 }
 
 export default reducer
