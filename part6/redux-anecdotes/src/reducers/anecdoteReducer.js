@@ -19,6 +19,10 @@ const asObject = (anecdote) => {
 
 const initialState = anecdotesAtStart.map(asObject)
 
+const orderVotes = (state) => {
+  return state.sort((a, b) => b.votes - a.votes)
+}
+
 export const increVote = (id) => {
   return {
     type: 'INCREASE_VOTE',
@@ -43,11 +47,11 @@ const reducer = (state = initialState, action) => {
     case 'INCREASE_VOTE':
       const anecdote = state.find(anec => anec.id === action.data.id)
       anecdote.votes += 1
-      return [...state]
+      return orderVotes([...state])
     case 'NEW_ANECDOTE':
-      return [...state, action.data.newAnecdote]
+      return orderVotes([...state, action.data.newAnecdote])
     default:
-      return state
+      return orderVotes(state)
   }
 }
 
