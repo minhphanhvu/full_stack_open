@@ -24,7 +24,7 @@ describe('anecdote reducer', () => {
   })
 
   test('return new state with action NEW_ANECDOTE', () => {
-    const state = [];
+    const state = []
     const anecdote = {
       content: 'If it hurts, do it more often',
       votes: 0,
