@@ -44,14 +44,16 @@ export const createAnecdote = (anecdote) => {
 
 const reducer = (state = initialState, action) => {
   switch(action.type) {
-    case 'INCREASE_VOTE':
-      const anecdote = state.find(anec => anec.id === action.data.id)
-      anecdote.votes += 1
-      return orderVotes([...state])
-    case 'NEW_ANECDOTE':
-      return orderVotes([...state, action.data.newAnecdote])
-    default:
-      return orderVotes(state)
+  case 'INCREASE_VOTE': {
+    const anecdote = state.find(anec => anec.id === action.data.id)
+    anecdote.votes += 1
+    return orderVotes([...state])
+  }
+  case 'NEW_ANECDOTE': {
+    return orderVotes([...state, action.data.newAnecdote])
+  }
+  default:
+    return orderVotes(state)
   }
 }
 
