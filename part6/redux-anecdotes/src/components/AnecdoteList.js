@@ -6,8 +6,8 @@ const AnecdoteList = () => {
   const anecdotes = useSelector(state => state.anecdotes)
   const dispatch = useDispatch()
 
-  const vote = (id) => {
-    dispatch(increVote(id))
+  const vote = (anecdote, id) => {
+    dispatch(increVote(anecdote, id))
   }
 
   return (
@@ -19,7 +19,7 @@ const AnecdoteList = () => {
           </div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
+            <button onClick={() => vote(anecdote.content, anecdote.id)}>vote</button>
           </div>
         </div>
       )}

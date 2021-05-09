@@ -23,10 +23,11 @@ const orderVotes = (state) => {
   return state.sort((a, b) => b.votes - a.votes)
 }
 
-export const increVote = (id) => {
+export const increVote = (anecdote, id) => {
   return {
     type: 'INCREASE_VOTE',
     data: {
+      anecdote: anecdote,
       id: id,
     }
   }
