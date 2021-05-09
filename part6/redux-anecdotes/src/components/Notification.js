@@ -7,9 +7,7 @@ const Notification = () => {
   const notification = useSelector(state => state.notification)
 
   if (notification.content) {
-    setTimeout(() => {
-      dispatch(removeNotification())
-    }, 5000)
+    dispatch(removeNotification(5))
   }
 
   return (

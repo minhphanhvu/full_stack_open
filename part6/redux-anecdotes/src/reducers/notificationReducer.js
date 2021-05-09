@@ -17,22 +17,26 @@ const setNotification = (content, type) => {
   }
 }
 
-export const removeNotification = () => {
-  return {
-    type: 'REMOVE_NOTIFICATION',
-    data: {
-      content: '',
-      style: {
-        display: 'none'
-      }
-    }
+export const removeNotification = (seconds) => {
+  return async dispatch => {
+    setTimeout(() => {
+      dispatch({
+        type: 'REMOVE_NOTIFICATION',
+        data: {
+          content: '',
+          style: {
+            display: 'none'
+          }
+        }
+      })
+    }, seconds * 1000)
   }
 }
 
 const notificationReducer = (state = { content: '', style:  { display: 'none' } }, action) => {
   switch(action.type) {
   case 'INCREASE_VOTE': {
-    return setNotification(action.data.anecdote, action.type)
+    return setNotification(action.data.changedAnecdote.content, action.type)
   }
   case 'REMOVE_NOTIFICATION': {
     return action.data
