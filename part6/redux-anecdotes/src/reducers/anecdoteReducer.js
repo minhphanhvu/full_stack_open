@@ -1,3 +1,5 @@
+import anecdoteService from '../services/anecdotes'
+
 const orderVotes = (state) => {
   return state.sort((a, b) => b.votes - a.votes)
 }
@@ -21,12 +23,15 @@ export const createAnecdote = (newAnecdote) => {
   }
 }
 
-export const initializeAnecdotes = (anecdotes) => {
-  return {
-    type: 'INITIALIZE_ANECDOTES',
-    data: {
-      anecdotes
-    }
+export const initializeAnecdotes = () => {
+  return async dispatch => {
+    const anecdotes = await anecdoteService.getAll()
+    dispatch({
+      type: 'INITIALIZE_ANECDOTES',
+      data: {
+        anecdotes
+      }
+    })
   }
 }
 
