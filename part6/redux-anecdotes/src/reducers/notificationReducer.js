@@ -1,21 +1,18 @@
 const setNotification = (content, type) => {
+  const style = {
+    border: 'solid',
+    padding: 10,
+    borderWidth: 1
+  }
+  const newState = {
+    content: '',
+    style,
+  }
   if (type === 'INCREASE_VOTE') {
-    return {
-      content: `You voted "${content}"`,
-      style: {
-        border: 'solid',
-        padding: 10,
-        borderWidth: 1
-      }
+    return { ...newState, content: `You voted "${content}"`,
     }
   } else if (type === 'NEW_ANECDOTE') {
-    return {
-      content: `"${content}" anecdote has been added`,
-      style: {
-        border: 'solid',
-        padding: 10,
-        borderWidth: 1
-      }
+    return { ...newState, content: `"${content}" anecdote has been added`,
     }
   }
 }
