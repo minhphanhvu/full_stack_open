@@ -6,8 +6,8 @@ const AnecdoteList = () => {
   const anecdotes = useSelector(state => state.filtered.length !== 0 ? state.filtered : state.anecdotes)
   const dispatch = useDispatch()
 
-  const vote = (anecdote, id) => {
-    dispatch(increVote(anecdote, id))
+  const vote = (anecdote) => {
+    dispatch(increVote(anecdote))
   }
 
   return (
@@ -19,7 +19,7 @@ const AnecdoteList = () => {
           </div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => vote(anecdote.content, anecdote.id)}>vote</button>
+            <button onClick={() => vote(anecdote)}>vote</button>
           </div>
         </div>
       )}
