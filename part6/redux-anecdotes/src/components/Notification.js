@@ -1,13 +1,12 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import { removeNotification } from '../reducers/notificationReducer'
 
-const Notification = () => {
-  const dispatch = useDispatch()
-  const notification = useSelector(state => state.notification)
+const Notification = (props) => {
+  const notification = props.notification
 
   if (notification.content) {
-    dispatch(removeNotification(5))
+    props.removeNotification(5)
   }
 
   return (
@@ -17,4 +16,18 @@ const Notification = () => {
   )
 }
 
-export default Notification
+const mapDispatchToProps = {
+  removeNotification,
+}
+
+const mapStateToProps = (state) => {
+  return {
+    notification: state.notification
+  }
+}
+
+const ConnectedNotification = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Notification)
+export default ConnectedNotification
