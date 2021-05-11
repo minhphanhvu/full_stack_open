@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import {
   Switch, Route, Link,
-  useParams
+  useParams,
+  useHistory
 } from 'react-router-dom'
 
 const Menu = () => {
@@ -61,6 +62,7 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
+  const history = useHistory()  
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
@@ -74,6 +76,11 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+    props.setNotification(`a new anecdote ${content} created!`)
+    setTimeout(() => {
+      props.setNotification('')
+    }, 10000)
+    history.push('/anecdotes')
   }
 
   return (
@@ -96,7 +103,6 @@ const CreateNew = (props) => {
       </form>
     </div>
   )
-
 }
 
 const App = () => {
@@ -142,6 +148,7 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
+      {notification}
       <Switch>
         <Route path="/anecdotes/:id">
           <Anecdote anecdotes={anecdotes} />
@@ -153,7 +160,7 @@ const App = () => {
           <About />
         </Route>
         <Route path="/create">
-          <CreateNew addNew={addNew} />
+          <CreateNew addNew={addNew} setNotification={setNotification}/>
         </Route>
         <Route path="/">
           <AnecdoteList anecdotes={anecdotes} />
