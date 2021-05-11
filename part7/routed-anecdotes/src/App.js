@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import {
-  Switch, Route, Link
+  Switch, Route, Link,
+  useParams
 } from 'react-router-dom'
 
 const Menu = () => {
@@ -9,7 +10,7 @@ const Menu = () => {
   }
   return (
     <div>
-      <Link style={padding} to="/">anecdotes</Link>
+      <Link style={padding} to="/anecdotes">anecdotes</Link>
       <Link style={padding} to="/create">create new</Link>
       <Link style={padding} to="/about">about</Link>
     </div>
@@ -20,10 +21,22 @@ const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
+      {anecdotes.map(anecdote => <li><Link to={`/anecdotes/${anecdote.id}`} key={anecdote.id} >{anecdote.content}</Link></li>)}
     </ul>
   </div>
 )
+
+const Anecdote = ({ anecdotes }) => {
+  const id = useParams().id
+  const anecdote = anecdotes.find(anec => anec.id === id)
+  return (
+    <div>
+      <h2>{anecdote.content}</h2>
+      <p>has {anecdote.votes} votes</p>
+      <p>for more info see <a href={anecdote.info}>{anecdote.info}</a></p>
+    </div>
+  )
+}
 
 const About = () => (
   <div>
@@ -130,6 +143,12 @@ const App = () => {
       <h1>Software anecdotes</h1>
       <Menu />
       <Switch>
+        <Route path="/anecdotes/:id">
+          <Anecdote anecdotes={anecdotes} />
+        </Route>
+        <Route path="/anecdotes">
+          <AnecdoteList anecdotes={anecdotes} />
+        </Route>
         <Route path="/about">
           <About />
         </Route>
