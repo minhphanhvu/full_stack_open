@@ -1,118 +1,15 @@
 import React, { useState } from 'react'
 import {
-  Switch, Route, Link,
-  useParams,
-  useHistory
+  Switch, Route
 } from 'react-router-dom'
-import { useField } from './hooks/index'
 
-const Menu = () => {
-  const padding = {
-    paddingRight: 5
-  }
-  return (
-    <div>
-      <Link style={padding} to="/anecdotes">anecdotes</Link>
-      <Link style={padding} to="/create">create new</Link>
-      <Link style={padding} to="/about">about</Link>
-    </div>
-  )
-}
-
-const AnecdoteList = ({ anecdotes }) => (
-  <div>
-    <h2>Anecdotes</h2>
-    <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id}><Link to={`/anecdotes/${anecdote.id}`} key={anecdote.id} >{anecdote.content}</Link></li>)}
-    </ul>
-  </div>
-)
-
-const Anecdote = ({ anecdotes }) => {
-  const id = useParams().id
-  const anecdote = anecdotes.find(anec => anec.id === id)
-  return (
-    <div>
-      <h2>{anecdote.content}</h2>
-      <p>has {anecdote.votes} votes</p>
-      <p>for more info see <a href={anecdote.info}>{anecdote.info}</a></p>
-    </div>
-  )
-}
-
-const About = () => (
-  <div>
-    <h2>About anecdote app</h2>
-    <p>According to Wikipedia:</p>
-
-    <em>An anecdote is a brief, revealing account of an individual person or an incident.
-      Occasionally humorous, anecdotes differ from jokes because their primary purpose is not simply to provoke laughter but to reveal a truth more general than the brief tale itself,
-      such as to characterize a person by delineating a specific quirk or trait, to communicate an abstract idea about a person, place, or thing through the concrete details of a short narrative.
-      An anecdote is "a story with a point."</em>
-
-    <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
-  </div>
-)
-
-const Footer = () => (
-  <div>
-    Anecdote app for <a href='https://courses.helsinki.fi/fi/tkt21009'>Full Stack -websovelluskehitys</a>.
-
-    See <a href='https://github.com/fullstack-hy/routed-anecdotes/blob/master/src/App.js'>https://github.com/fullstack-hy2019/routed-anecdotes/blob/master/src/App.js</a> for the source code.
-  </div>
-)
-
-const CreateNew = (props) => {
-  const history = useHistory()  
-  const content = useField('content')
-  const author = useField('author')
-  const info = useField('info')
-
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    props.addNew({
-      content: content.value,
-      author: author.value,
-      info: info.value,
-      votes: 0
-    })
-    props.setNotification(`a new anecdote ${content} created!`)
-    setTimeout(() => {
-      props.setNotification('')
-    }, 10000)
-    history.push('/anecdotes')
-  }
-
-  const handleReset = (e) => {
-    e.preventDefault()
-    content.onReset()
-    author.onReset()
-    info.onReset()
-  }
-
-  return (
-    <div>
-      <h2>create a new anecdote</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          content
-          <input type="text" {...content} />
-        </div>
-        <div>
-          author
-          <input type="text" {...author} />
-        </div>
-        <div>
-          url for more info
-          <input type="text" {...info} />
-        </div>
-        <button type="submit">create</button>
-        <button type="reset" onClick={handleReset}>reset</button>
-      </form>
-    </div>
-  )
-}
+// Componenets
+import Menu from './components/Menu'
+import AnecdoteList from './components/AnecdoteList'
+import Anecdote from './components/Anecdote'
+import About from './components/About'
+import Footer from './components/Footer'
+import CreateNew from './components/CreateNew'
 
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
