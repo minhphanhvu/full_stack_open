@@ -18,8 +18,9 @@ const setNotification = (content, type) => {
 }
 
 export const removeNotification = (seconds) => {
+  let timeId
   return async dispatch => {
-    clearTimeout(timeId)
+    if (timeId) clearTimeout(timeId)
     timeId = setTimeout(() => {
       dispatch({
         type: 'REMOVE_NOTIFICATION',
