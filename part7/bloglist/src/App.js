@@ -1,4 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { setNotification, removeNotification } from './reducers/notificationReducer'
+import { useSelector, useDispatch } from 'react-redux'
+
+// Import Services
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -10,6 +14,8 @@ import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
 
 const App = () => {
+  const dispatch = useDispatch()
+  const message = useSelector(state => state)
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -18,10 +24,6 @@ const App = () => {
 
   // Using useRef to close the form for a new blog created
   const blogFormRef = useRef()
-
-  // States for messages
-  const [message, setMessage] = useState(null)
-  const [messageType, setMessageType] = useState('')
 
   // useEffect
   useEffect(() => {
@@ -56,10 +58,9 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch(exception) {
-      setMessageType('error')
-      setMessage('wrong credentials')
+      dispatch(setNotification('error', 'wrong credentials'))
       setTimeout(() => {
-        setMessage(null)
+        dispatch(removeNotification())
       }, 5000)
     }
   }
@@ -78,12 +79,10 @@ const App = () => {
     blogFormRef.current.toggleVisibility()
     blogService.createBlog(newBlog)
       .then(returnedBlog => {
-        setMessage(`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`)
-        setMessageType('success')
+        dispatch(setNotification('success', `a new blog ${returnedBlog.title} by ${returnedBlog.author} added`))
         setBlogs(blogs.concat(returnedBlog))
         setTimeout(() => {
-          setMessage(null)
-          setMessageType('')
+          dispatch(removeNotification())
         }, 6000)
       })
   }
@@ -91,7 +90,7 @@ const App = () => {
   return (
     <div>
       <h2>Blogs</h2>
-      { message &&  <Message message={message} messageType={messageType} /> }
+      { <Message message={message.message} messageType={message.style} /> }
       { user === null ?
         <LoginForm
           username={username} password={password} handleLogin={handleLogin}
@@ -112,7 +111,6 @@ const App = () => {
       { user !== null && blogs.map(blog =>
         <Blog key={blog.id} blog={blog} blogs={blogs}
           setBlogs={setBlogs} updateLikes={blogService.updateLikes} destroy={blogService.destroy}
-          setMessage={setMessage} setMessageType={setMessageType}
         />
       )}
     </div>

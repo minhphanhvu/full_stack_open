@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { setNotification, removeNotification } from '../reducers/notificationReducer'
 
-const Blog = ({ blog, blogs, setBlogs, updateLikes, destroy, setMessage, setMessageType }) => {
+const Blog = ({ blog, blogs, setBlogs, updateLikes, destroy }) => {
+  const dispatch = useDispatch()
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -35,17 +38,17 @@ const Blog = ({ blog, blogs, setBlogs, updateLikes, destroy, setMessage, setMess
       destroy(blog.id)
         .then(response => {
           if (response.status === 204) {
-            setMessageType('success')
-            setMessage('Delete Success')
+            dispatch(setNotification('success', 'Delete Success'))
             setBlogs(blogs.filter(b => b.id !== blog.id).sort((a, b) => b.likes - a.likes))
           }
           else {
             setMessageType('error')
             setMessage('Unauthorized action')
+            dispatch(setNotification('error', 'Unauthorized action'))
           }
         })
       setTimeout(() => {
-        setMessage(null)
+        dispatch(removeNotification())
       }, 5000)
     }
   }
