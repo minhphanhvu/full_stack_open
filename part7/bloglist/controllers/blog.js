@@ -1,5 +1,4 @@
 const blogsRouter = require('express').Router()
-const { request } = require('express')
 const Blog = require('../models/blog')
 const middleware = require('../utils/middleware')
 
@@ -38,7 +37,7 @@ blogsRouter.post('/', middleware.userExtractor, async (request, response) => {
   return response.status(201).json(savedBlog)
 })
 
-blogsRouter.put('/:id', (request, response) => {
+blogsRouter.put('/:id', (request, response, next) => {
   const blogId = request.params.id
   const likes = request.body.likes
 

@@ -25,6 +25,7 @@ mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, us
 
 // Using cors and body-parser
 app.use(cors())
+app.use(express.static('build'))
 app.use(express.json())
 
 // Using middleware requestLogger
