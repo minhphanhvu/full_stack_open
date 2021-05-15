@@ -74,8 +74,8 @@ describe('login tests', () => {
     await api
       .post('/api/login')
       .send({
-        username: "test",
-        password: "password"
+        username: 'test',
+        password: 'password'
       })
       .expect(200)
   })
@@ -84,8 +84,8 @@ describe('login tests', () => {
     const response = await api
       .post('/api/login')
       .send({
-        username: "test",
-        password: "WrongPassword"
+        username: 'test',
+        password: 'WrongPassword'
       })
       .expect(401)
     
@@ -98,9 +98,9 @@ describe('POST method add a blog to the db', () => {
     const token = await user_helper.generateFirstUserToken()
 
     const newBlog = {
-      title: "Full stack page",
-      author: "make-up",
-      url: "https://fullstackopen.com/en/",
+      title: 'Full stack page',
+      author: 'make-up',
+      url: 'https://fullstackopen.com/en/',
       likes: 10
     }
   
@@ -124,9 +124,9 @@ describe('POST method add a blog to the db', () => {
     const token = await user_helper.generateFirstUserToken()
 
     const newBlog = {
-      title: "Full stack page",
-      author: "make-up",
-      url: "https://fullstackopen.com/en/"
+      title: 'Full stack page',
+      author: 'make-up',
+      url: 'https://fullstackopen.com/en/'
     }
   
     await api.post('/api/blogs')
@@ -140,14 +140,14 @@ describe('POST method add a blog to the db', () => {
   
     const blogsWithZeroLikes = blogsAtEnd.filter(blog => blog.likes === 0)
     const blog = blogsWithZeroLikes.filter(blog => blog.title === 'Full stack page')[0]
-    expect(blog.author).toEqual("make-up")
+    expect(blog.author).toEqual('make-up')
   })
   
   test('a blog without title and url send back a request status 400', async () => {
     const token = await user_helper.generateFirstUserToken()
 
     const newBlog = {
-      title: "Full stack page",
+      title: 'Full stack page',
       likes: 10
     }
   
@@ -165,7 +165,7 @@ describe('deletion of a blog', () => {
 
     const newBlog = {
       author: 'test',
-      title: "Blog to delete",
+      title: 'Blog to delete',
       url: 'Example.com',
       likes: 10
     }

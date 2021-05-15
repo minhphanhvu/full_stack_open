@@ -1,4 +1,3 @@
-const { TestScheduler } = require('@jest/core')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
@@ -48,9 +47,9 @@ describe('create a new user', () => {
 
   test('unsuccessfully, new user violates unqiue username constraint, but with valid password', async () => {
     const newUser = {
-      username: "test",
-      name: "test",
-      password: "Pass1234"
+      username: 'test',
+      name: 'test',
+      password: 'Pass1234'
     }
 
     const response = await api
@@ -58,14 +57,14 @@ describe('create a new user', () => {
       .send(newUser)
       .expect(400)
 
-    expect(response.body).toEqual({ error: "User validation failed: username: Error, expected `username` to be unique. Value: `test`" })
+    expect(response.body).toEqual({ error: 'User validation failed: username: Error, expected `username` to be unique. Value: `test`' })
   })
 
   test('successfully create a new user', async () => {
     const newUser = {
-      username: "New User",
-      name: "User",
-      password: "Pass1234"
+      username: 'New User',
+      name: 'User',
+      password: 'Pass1234'
     }
 
     await api
@@ -74,7 +73,7 @@ describe('create a new user', () => {
       .expect(201)
 
     const users = await helper.usersInDb()
-    const savedUser = users.find(user => user.username === "New User")
+    const savedUser = users.find(user => user.username === 'New User')
 
     expect(savedUser).toBeDefined()
   })

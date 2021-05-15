@@ -6,24 +6,24 @@ const api = supertest(app)
 
 const initialUsers = [
   {
-    username: "test",
-    name: "test",
-    password: "password"
+    username: 'test',
+    name: 'test',
+    password: 'password'
   },
   {
-    username: "test 2",
-    name: "Alice Wonderland",
-    password: "password"
+    username: 'test 2',
+    name: 'Alice Wonderland',
+    password: 'password'
   },
   {
-    username: "Robbert",
-    name: "Robbert",
-    password: "Pass1234"
+    username: 'Robbert',
+    name: 'Robbert',
+    password: 'Pass1234'
   },
   {
-    username: "Joseph",
-    name: "Joseph Vu",
-    password: "Pass1234"
+    username: 'Joseph',
+    name: 'Joseph Vu',
+    password: 'Pass1234'
   },
 ]
 
@@ -37,8 +37,8 @@ const generateFirstUserToken = async () => {
   const res = await api
     .post('/api/login')
     .send({
-      username: "test",
-      password: "password"
+      username: 'test',
+      password: 'password'
     })
 
   return res.body.token
