@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
     "start:test": "cross-env NODE_ENV=test node index.js",
-    "watch": "npm-watch"
+    "watch": "npm-watch",
+    "react-start": "react-scripts start"
   },
   "proxy": "http://localhost:3003",
   "author": "",
@@ -36,7 +37,9 @@
     "build": {
       "patterns": [
         "src",
-        "src/components"
+        "src/components",
+        "src/services",
+        "src/utils"
       ],
       "exntensions": "js,jsx,css"
     }
