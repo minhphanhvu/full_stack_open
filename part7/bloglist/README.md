@@ -1,7 +1,8 @@
 ### Blog list application built on express server
 
-Test user:
+## Hosted on heroku [here](https://finnsbloglist.herokuapp.com/)
+
+Test user one can use:
 
 username: test
-
 password: password
