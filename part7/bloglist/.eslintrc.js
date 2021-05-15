@@ -24,5 +24,5 @@ module.exports = {
       'never'
     ],
     'no-console': 0
-  }
+  },
 }
